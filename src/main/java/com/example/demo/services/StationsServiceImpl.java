@@ -39,7 +39,7 @@ public class StationsServiceImpl implements StationsService {
             latLng.setLat(entity.getLat());
             stationResponse.setLatLng(latLng);
             stationResponse.setAccuracy(entity.getAccuracy());
-            stationResponse.setIdCompany(entity.getCompany().getId());
+            //stationResponse.setIdCompany(entity.getCompany().getId());
 
             stationResponseList.add(stationResponse);
         }
