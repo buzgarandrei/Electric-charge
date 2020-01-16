@@ -48,7 +48,7 @@ public class StationsRepositoryImpl implements StationsRepository {
         stationsEntity.setLat(stationRequest.getLatLng().getLat());
         stationsEntity.setLng(stationRequest.getLatLng().getLng());
         stationsEntity.setAccuracy(stationRequest.getAccuracy());
-        stationsEntity.setCompany(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()));
+        //stationsEntity.setCompany(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()));
 
         entityManager.persist(stationsEntity);
     }
