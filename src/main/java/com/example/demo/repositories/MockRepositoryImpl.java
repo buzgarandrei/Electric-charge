@@ -24,130 +24,7 @@ public class MockRepositoryImpl implements MockRepository {
     @Transactional
     public void populateDB() throws SQLIntegrityConstraintViolationException {
 
-       /* int i;
 
-        List<ContactFormCategoriesEntity> categoriesEntityList = new ArrayList<>();
-        List<Region> regionList = new ArrayList<>();
-        List<CompaniesEntity> companiesEntityList = new ArrayList<>();
-        List<RoleEnum> roleEnumList = new ArrayList<>();
-        roleEnumList.add(RoleEnum.ADMIN);
-        roleEnumList.add(RoleEnum.BASIC_USER);
-        roleEnumList.add(RoleEnum.PREMIUM_USER);
-        roleEnumList.add(RoleEnum.STATION_OWNER);
-
-        for (i = 0; i <= 6; i++) {
-
-            ContactFormCategoriesEntity entity = new ContactFormCategoriesEntity();
-            entity.setTypeOfCategory(RandomStringUtils.randomAlphabetic(13));
-            entityManager.persist(entity);
-
-            Region region = new Region();
-            region.setCountry(RandomStringUtils.randomAlphabetic(12));
-            region.setCity(RandomStringUtils.randomAlphabetic(11));
-            entityManager.persist(region);
-
-            CompaniesEntity company = new CompaniesEntity();
-            company.setName(RandomStringUtils.randomAlphabetic(7));
-            entityManager.persist(company);
-
-            categoriesEntityList.add(entity);
-            regionList.add(region);
-            companiesEntityList.add(company);
-
-            i++;
-        }
-
-        List<CarsEntity> carsEntityList = new ArrayList<>();
-        List<StationsEntity> stationsEntityList = new ArrayList<>();
-        List<UsersEntity> usersEntityList = new ArrayList<>();
-
-        for (i = 0; i <= 100; i++) {
-
-            Random random = new Random();
-
-
-            CarsEntity carsEntity = new CarsEntity();
-            carsEntity.setMinutesForFastCharge((float) Math.random());
-            carsEntity.setMinutesForNormalCharge((float) Math.random());
-            carsEntity.setModel(RandomStringUtils.randomAlphabetic(10));
-            carsEntity.setIdCompany(companiesEntityList.get(random.nextInt(companiesEntityList.size())));
-            carsEntityList.add(carsEntity);
-            entityManager.persist(carsEntity);
-
-            StationsEntity stationsEntity = new StationsEntity();
-            stationsEntity.setRegion(regionList.get(random.nextInt(regionList.size())));
-            stationsEntity.setAddress(RandomStringUtils.randomAlphabetic(8));
-            stationsEntity.setName(RandomStringUtils.randomAlphabetic(5));
-            stationsEntity.setPrice((float) Math.random());
-            stationsEntity.setPhotos(RandomStringUtils.randomAlphabetic(9));
-            stationsEntityList.add(stationsEntity);
-            entityManager.persist(stationsEntity);
-
-            PowerUnitEntity powerUnitEntity = new PowerUnitEntity();
-            powerUnitEntity.setFastCharge(random.nextBoolean());
-            powerUnitEntity.setStationEntity(stationsEntity);
-            powerUnitEntity.setDescription(RandomStringUtils.randomAlphabetic(7));
-            powerUnitEntity.setPower((float) Math.random());
-            entityManager.persist(powerUnitEntity);
-
-            ContactFormMessagesEntity contactFormMessagesEntity = new ContactFormMessagesEntity();
-            contactFormMessagesEntity.setMessageOfContactForm(RandomStringUtils.randomAlphabetic(234));
-            contactFormMessagesEntity.setState(random.nextInt());
-            entityManager.persist(contactFormMessagesEntity);
-
-            UsersEntity usersEntity = new UsersEntity();
-            usersEntity.setRegion(regionList.get(random.nextInt(regionList.size())));
-            usersEntity.setRole(roleEnumList.get(random.nextInt(roleEnumList.size())));
-            usersEntity.setName(RandomStringUtils.randomAlphabetic(18));
-            usersEntity.setPassword(RandomStringUtils.randomAlphabetic(8));
-            usersEntity.setUsername(RandomStringUtils.randomAlphabetic(12));
-
-            List<CarsEntity> carsForUser = usersEntity.getCarsEntityList();
-            for (int j = 0; j < random.nextInt(carsEntityList.size()); j++) {
-                carsForUser.add(carsEntityList.get(random.nextInt(carsEntityList.size())));
-            }
-
-            List<StationsEntity> favourites = usersEntity.getFavourites();
-            for (int j = 0; j < random.nextInt(stationsEntityList.size()); j++) {
-                favourites.add(stationsEntityList.get(random.nextInt(stationsEntityList.size())));
-            }
-            usersEntityList.add(usersEntity);
-            entityManager.persist(usersEntity);
-        }
-
-        List<ReadEnum> readEnumList = new ArrayList<>();
-        readEnumList.add(ReadEnum.RESPONDED);
-        readEnumList.add(ReadEnum.NOT_RESPONDED);
-
-        Random random = new Random();
-
-        for (i = 0; i < 1000; i++) {
-            ChargerequestsEntity chargerequestsEntity = new ChargerequestsEntity();
-            chargerequestsEntity.setMessage(RandomStringUtils.randomAlphabetic(200));
-            chargerequestsEntity.setReadOrNot(readEnumList.get(random.nextInt(readEnumList.size())));
-            chargerequestsEntity.setUsersEntity1(usersEntityList.get(random.nextInt(usersEntityList.size())));
-            chargerequestsEntity.setUserEntity2(usersEntityList.get(random.nextInt(usersEntityList.size())));
-            entityManager.persist(chargerequestsEntity);
-        }
-
-        System.out.println("I'm a fucking bad-ass :D");
-
-    }*/
-
-        Region region1 = new Region();
-        region1.setCity("Cluj-Napoca");
-        region1.setCountry("Romania");
-        entityManager.persist(region1);
-
-        Region region2 = new Region();
-        region2.setCountry("Romania");
-        region2.setCity("Bucharest");
-        entityManager.persist(region2);
-
-        Region region3 = new Region();
-        region3.setCountry("Hungary");
-        region3.setCity("Budapest");
-        entityManager.persist(region3);
 
         UsersEntity user1 = new UsersEntity();
         user1.setUsername("badra.alex");
@@ -257,6 +134,7 @@ public class MockRepositoryImpl implements MockRepository {
         station1.setLng(23.5972907);
         station1.setLat(46.7703884);
         station1.setAccuracy(2);
+        station1.setCompany(company3);
         entityManager.persist(station1);
         StationsEntity savedStation1 = entityManager.find(StationsEntity.class,1L);
 
@@ -269,6 +147,7 @@ public class MockRepositoryImpl implements MockRepository {
         station2.setAccuracy(3);
         station2.setLng(23.6038855);
         station2.setLat(46.7714372);
+        station2.setCompany(company2);
         entityManager.persist(station2);
         StationsEntity savedStation2 = entityManager.find(StationsEntity.class,2L);
 
@@ -282,6 +161,7 @@ public class MockRepositoryImpl implements MockRepository {
         station3.setLat(44.4256856);
         station3.setLng(26.0931378);
         station3.setAccuracy(2.5);
+        station3.setCompany(company4);
         entityManager.persist(station3);
         StationsEntity savedStation3 = entityManager.find(StationsEntity.class,3L);
 
