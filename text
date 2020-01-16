@@ -1,0 +1,5 @@
+StationRequest:
+"adress" : "Memo,33,ap.69",
+  "price" : "20",
+  "name" : "Memo E-Charge Station",
+	"idRegion" : "1"
