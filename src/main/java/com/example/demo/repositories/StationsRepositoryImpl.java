@@ -1,12 +1,8 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entities.CompaniesEntity;
-import com.example.demo.entities.PowerUnitEntity;
-import com.example.demo.entities.Region;
 import com.example.demo.entities.StationsEntity;
-import com.example.demo.request.RegionRequest;
 import com.example.demo.request.StationRequest;
-import com.example.demo.request.specialRequests.AssignPowerUnitToStation;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
 import com.example.demo.response.StationResponse;
@@ -48,7 +44,7 @@ public class StationsRepositoryImpl implements StationsRepository {
         stationsEntity.setLat(stationRequest.getLatLng().getLat());
         stationsEntity.setLng(stationRequest.getLatLng().getLng());
         stationsEntity.setAccuracy(stationRequest.getAccuracy());
-        //stationsEntity.setCompany(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()));
+        stationsEntity.setCompany(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()));
 
         entityManager.persist(stationsEntity);
     }
@@ -91,23 +87,6 @@ public class StationsRepositoryImpl implements StationsRepository {
         } catch (Exception e) {
             System.out.println("bad station id");
         }
-    }
-
-    @Override
-    @Transactional
-    public void addPowerUnitToStation(AssignPowerUnitToStation assignPowerUnitToStation) throws Exception {
-
-        try {
-            PowerUnitEntity powerUnitEntity = entityManager.find(PowerUnitEntity.class, assignPowerUnitToStation.getIdPowerUnit());
-            StationsEntity stationEntity = entityManager.find(StationsEntity.class, assignPowerUnitToStation.getIdStation());
-
-            entityManager.merge(stationEntity);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("bad power unit id");
-        }
-
-
     }
 
     @Override

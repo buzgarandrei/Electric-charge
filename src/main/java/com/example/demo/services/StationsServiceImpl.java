@@ -2,9 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.entities.StationsEntity;
 import com.example.demo.repositories.StationsRepository;
-import com.example.demo.request.RegionRequest;
 import com.example.demo.request.StationRequest;
-import com.example.demo.request.specialRequests.AssignPowerUnitToStation;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
 import com.example.demo.response.StationResponse;
@@ -39,7 +37,7 @@ public class StationsServiceImpl implements StationsService {
             latLng.setLat(entity.getLat());
             stationResponse.setLatLng(latLng);
             stationResponse.setAccuracy(entity.getAccuracy());
-            //stationResponse.setIdCompany(entity.getCompany().getId());
+            stationResponse.setIdCompany(entity.getCompany().getId());
 
             stationResponseList.add(stationResponse);
         }
@@ -63,12 +61,6 @@ public class StationsServiceImpl implements StationsService {
     public void deleteStation(RequestWithIdOnly id) throws Exception {
 
         stationsRepository.deleteStation(id);
-    }
-
-    @Override
-    public void addPowerUnitToStation(AssignPowerUnitToStation assignPowerUnitToStation) throws Exception {
-
-        stationsRepository.addPowerUnitToStation(assignPowerUnitToStation);
     }
 
     @Override

@@ -129,115 +129,6 @@ public class PowerUnitsController {
         return stateResponse;
     }
 
-    /**
-     * it will make an appointment at a power unit and will return the details of the made appointment
-     * @param servletRequest
-     * @param goingToQueueRequest
-     * @return
-     * @throws Exception
-    @RequestMapping(path = "/makeAppointmentAtPowerUnit",method = RequestMethod.POST)
-    public GoingToQueueResponse makeAppointmentAtPowerUnit(HttpServletRequest servletRequest, @RequestBody GoingToQueueRequest goingToQueueRequest) throws Exception {
-
-        return powerUnitsService.makeAppointmentAtPowerUnit(goingToQueueRequest);
-
-    }
-
-    *//**
-     * will return the list of the appointments made at a power unit
-     * @param servletRequest
-     * @param requestWithIdOnly
-     * @return
-     * @throws Exception
-     *//*
-    @RequestMapping(path = "/getAppointmentsAtAPowerUnit")
-    public List<GoingToQueueResponse> getAppointmentsAtAPowerUnit(HttpServletRequest servletRequest,@RequestBody RequestWithIdOnly requestWithIdOnly) throws Exception {
-
-        boolean validated = authenticationService.validateTokenAndRole(servletRequest,RoleEnum.ADMIN);
-        if(!validated) return null;
-
-        List<GoingToQueueResponse> list = powerUnitsService.getAppointmentsAtAPowerUnit(requestWithIdOnly);
-        return list;
-    }
-
-    *//**
-     * will return the appointment with the given id
-     * @param httpServletRequest
-     * @param requestWithIdOnly
-     * @return
-     * @throws Exception
-     *//*
-    @RequestMapping(path = "/getAppointmentById")
-    public GoingToQueueResponse getAppointmentById(HttpServletRequest httpServletRequest,@RequestBody RequestWithIdOnly requestWithIdOnly) throws Exception {
-
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest,RoleEnum.ADMIN);
-        if(!validated) return null;
-
-        return powerUnitsService.getAppointmentById(requestWithIdOnly);
-    }
-
-    *//**
-     * will return a list with all appointments from db
-     * @param httpServletRequest
-     * @return
-     * @throws Exception
-     *//*
-    @RequestMapping(path = "/getAllAppointments")
-    public List<GoingToQueueResponse> getAllAppointments(HttpServletRequest httpServletRequest) throws Exception {
-
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest,RoleEnum.ADMIN);
-        if(!validated) return null;
-
-        return powerUnitsService.getAllAppointments();
-    }
-
-    *//**
-     * will delete an appointment with a given id from db
-     * @param httpServletRequest
-     * @param requestWithIdOnly
-     * @return
-     *//*
-    @RequestMapping(value = "/deleteAppointment",method = RequestMethod.POST)
-    public StateResponse deleteAppointment(HttpServletRequest httpServletRequest, @RequestBody RequestWithIdOnly requestWithIdOnly) {
-
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest,RoleEnum.ADMIN);
-        if(!validated) return null;
-
-        StateResponse stateResponse =new StateResponse();
-        try {
-            powerUnitsService.deleteAppointment(requestWithIdOnly);
-            stateResponse.setSuccess(true);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            stateResponse.setSuccess(false);
-        }
-        return stateResponse;
-    }
-
-    *//**
-     * will update an appointment
-     * @param httpServletRequest
-     * @param request
-     * @return
-     *//*
-    @RequestMapping(value = "/updateAppointment",method = RequestMethod.POST)
-    public StateResponse updateAppointment(HttpServletRequest httpServletRequest,@RequestBody UpdateToQueue request) {
-
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest,RoleEnum.ADMIN);
-        if(!validated) return null;
-
-        StateResponse stateResponse = new StateResponse();
-        try {
-            powerUnitsService.updateAppointment(request);
-            stateResponse.setSuccess(true);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            stateResponse.setSuccess(false);
-        }
-        return stateResponse;
-    }*/
-
     @RequestMapping(value = "/doCheckIn",method = RequestMethod.POST)
     public StateResponse doCheckIn(HttpServletRequest httpServletRequest, @RequestBody CheckInRequest request) {
 
@@ -257,6 +148,12 @@ public class PowerUnitsController {
         return stateResponse;
     }
 
+    /**
+     *
+     * @param httpServletRequest
+     * @param request
+     * @return
+     */
         @RequestMapping(value = "/doCheckOut",method = RequestMethod.POST)
     public CheckOutResponse doCheckOut(HttpServletRequest httpServletRequest, @RequestBody CheckOutRequest request) {
 

@@ -134,7 +134,7 @@ public class MockRepositoryImpl implements MockRepository {
         station1.setLng(23.5972907);
         station1.setLat(46.7703884);
         station1.setAccuracy(2);
-        //station1.setCompany(company3);
+        station1.setCompany(company3);
         entityManager.persist(station1);
         StationsEntity savedStation1 = entityManager.find(StationsEntity.class,1L);
 
@@ -147,7 +147,7 @@ public class MockRepositoryImpl implements MockRepository {
         station2.setAccuracy(3);
         station2.setLng(23.6038855);
         station2.setLat(46.7714372);
-        //station2.setCompany(company2);
+        station2.setCompany(company2);
         entityManager.persist(station2);
         StationsEntity savedStation2 = entityManager.find(StationsEntity.class,2L);
 
@@ -161,7 +161,7 @@ public class MockRepositoryImpl implements MockRepository {
         station3.setLat(44.4256856);
         station3.setLng(26.0931378);
         station3.setAccuracy(2.5);
-        //station3.setCompany(company4);
+        station3.setCompany(company4);
         entityManager.persist(station3);
         StationsEntity savedStation3 = entityManager.find(StationsEntity.class,3L);
 

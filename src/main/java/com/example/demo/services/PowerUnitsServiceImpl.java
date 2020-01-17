@@ -68,44 +68,6 @@ public class PowerUnitsServiceImpl implements PowerUnitsService {
         return powerUnitsRepository.getPowerUnitById(request);
     }
 
-/*    @Override
-    public GoingToQueueResponse makeAppointmentAtPowerUnit(GoingToQueueRequest goingToQueueRequest) throws Exception {
-
-        return powerUnitsRepository.makeAppointmentAtPowerUnit(goingToQueueRequest);
-    }
-
-    @Override
-    public List<GoingToQueueResponse> getAppointmentsAtAPowerUnit(RequestWithIdOnly requestWithIdOnly) throws Exception {
-
-        return powerUnitsRepository.getAppointmentsAtAPowerUnit(requestWithIdOnly);
-    }
-
-    @Override
-    public GoingToQueueResponse getAppointmentById(RequestWithIdOnly requestWithIdOnly) throws Exception {
-
-        return powerUnitsRepository.getAppointmentById(requestWithIdOnly);
-    }
-
-    @Override
-    public List<GoingToQueueResponse> getAllAppointments() throws Exception {
-
-        List<GoingToQueueResponse> goingToQueueResponseList;
-        goingToQueueResponseList = powerUnitsRepository.getAllAppointments();
-
-        return goingToQueueResponseList;
-    }
-
-    @Override
-    public void deleteAppointment(RequestWithIdOnly requestWithIdOnly) throws Exception {
-
-        powerUnitsRepository.deleteAppointments(requestWithIdOnly);
-    }
-
-    @Override
-    public void updateAppointment(UpdateToQueue request) throws Exception {
-
-        powerUnitsRepository.updateAppointment(request);
-    }*/
 
     @Override
     public StateResponse doCheckIn(CheckInRequest request) throws ParseException {

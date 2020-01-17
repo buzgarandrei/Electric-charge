@@ -20,18 +20,6 @@ public interface PowerUnitsService {
 
     PowerUnitsResponse getPowerUnitById(RequestWithIdOnly request);
 
-   /* GoingToQueueResponse makeAppointmentAtPowerUnit(GoingToQueueRequest goingToQueueRequest) throws Exception;
-
-    List<GoingToQueueResponse> getAppointmentsAtAPowerUnit(RequestWithIdOnly requestWithIdOnly) throws Exception;
-
-    GoingToQueueResponse getAppointmentById(RequestWithIdOnly requestWithIdOnly) throws Exception;
-
-    List<GoingToQueueResponse> getAllAppointments() throws Exception;
-
-    void deleteAppointment(RequestWithIdOnly requestWithIdOnly) throws Exception;
-
-    void updateAppointment(UpdateToQueue request) throws Exception;*/
-
     StateResponse doCheckIn(CheckInRequest request) throws ParseException;
 
     Float doCheckOut(CheckOutRequest request);

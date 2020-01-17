@@ -1,18 +1,14 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.enums.RoleEnum;
-import com.example.demo.request.RegionRequest;
 import com.example.demo.request.StationRequest;
-import com.example.demo.request.specialRequests.AssignPowerUnitToStation;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
 import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.services.AuthenticationService;
 import com.example.demo.services.StationsService;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -149,27 +145,4 @@ public class StationsController {
         return stateResponse;
     }
 
-    /**
-     * it adds a power unit to a station
-     * @param httpServletRequest
-     * @param assignPowerUnitToStation
-     * @return stateResponse
-     *//*
-    @RequestMapping(path = "/addPowerUnitToStation",method = RequestMethod.POST)
-    public StateResponse addPowerUnitToStation(HttpServletRequest httpServletRequest, @RequestBody AssignPowerUnitToStation assignPowerUnitToStation) {
-
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, RoleEnum.ADMIN);
-        if(!validated) return null;
-
-        StateResponse stateResponse = new StateResponse();
-        try {
-            stationsService.addPowerUnitToStation(assignPowerUnitToStation);
-            stateResponse.setSuccess(true);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            stateResponse.setSuccess(false);
-        }
-        return stateResponse;
-    }*/
 }
