@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -10,7 +11,14 @@ import javax.persistence.*;
 public class ContactFormCategoriesEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy= GenerationType.AUTO,
+            generator="native"
+    )
+    @GenericGenerator(
+            name = "native",
+            strategy = "native"
+    )
     private Long id;
 
     @Column(name = "message_for_contact")

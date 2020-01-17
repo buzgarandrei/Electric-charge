@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 import com.example.demo.entities.enums.RoleEnum;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -20,7 +21,14 @@ import java.util.List;
 public class UsersEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy= GenerationType.AUTO,
+            generator="native"
+    )
+    @GenericGenerator(
+            name = "native",
+            strategy = "native"
+    )
     private Long id;
 
     @Column(name = "username", unique = true)
@@ -42,7 +50,7 @@ public class UsersEntity {
             uniqueConstraints = @UniqueConstraint(columnNames = {"id_station","id_user"}))
     List<StationsEntity> favourites = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "users_cars",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_car"),

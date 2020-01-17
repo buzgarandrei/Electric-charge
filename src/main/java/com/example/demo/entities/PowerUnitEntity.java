@@ -1,6 +1,8 @@
 package com.example.demo.entities;
 
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,14 @@ import java.util.List;
 @Table(name = "power_unit")
 public class PowerUnitEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(
+            strategy= GenerationType.AUTO,
+            generator="native"
+    )
+    @GenericGenerator(
+            name = "native",
+            strategy = "native"
+    )
     private Long id;
 
     @Column(name = "description")
@@ -23,7 +31,7 @@ public class PowerUnitEntity {
     @Column(name = "power")
     private float Power;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "id_station")
     private StationsEntity stationEntity;
 
