@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.UUID;
 
 @Repository
@@ -22,7 +21,7 @@ public class MockRepositoryImpl implements MockRepository {
 
     @Override
     @Transactional
-    public void populateDB() throws SQLIntegrityConstraintViolationException {
+    public void populateDB() {
 
 
 

@@ -1,6 +1,6 @@
 package com.example.demo.request;
 
-public class PowerUnitsRequest {
+public class  PowerUnitsRequest {
 
     private Long id;
     private String name;

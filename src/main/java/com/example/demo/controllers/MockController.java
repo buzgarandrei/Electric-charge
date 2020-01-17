@@ -3,10 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.services.MockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 
 @Controller
 public class MockController {
@@ -15,7 +12,7 @@ public class MockController {
     private MockService mockService;
 
     @RequestMapping(path = "/alearga")
-    public void trigger() throws SQLIntegrityConstraintViolationException {
+    public void trigger()  {
         mockService.run();
     }
 }

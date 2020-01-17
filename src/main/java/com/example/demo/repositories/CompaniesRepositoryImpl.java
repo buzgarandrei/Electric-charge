@@ -34,6 +34,8 @@ public class CompaniesRepositoryImpl implements CompaniesRepository {
         try {
 
             entityManager.persist(companiesEntity);
+            Integer a = 1;
+            System.out.println(a.toString());
 
         }
         catch (Exception e) {
