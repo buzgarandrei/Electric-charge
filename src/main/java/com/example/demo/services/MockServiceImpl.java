@@ -12,6 +12,13 @@ public class MockServiceImpl implements MockService {
 
     @Override
     public void run() {
-        mockRepository.populateDB();
+        mockRepository.populateCompanies();
+        mockRepository.populateCars();
+        mockRepository.populateStations();
+        mockRepository.populatePowerUnites();
+        mockRepository.populateUsers();
+        mockRepository.populateRequests();
+        mockRepository.populateFormCategories();
+        mockRepository.populateMessages();
     }
 }
