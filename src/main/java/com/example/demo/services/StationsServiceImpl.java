@@ -1,10 +1,12 @@
 package com.example.demo.services;
 
+import com.example.demo.entities.PowerUnitEntity;
 import com.example.demo.entities.StationsEntity;
 import com.example.demo.repositories.StationsRepository;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
+import com.example.demo.response.PowerUnitsResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.utils.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +73,27 @@ public class StationsServiceImpl implements StationsService {
     @Override
     public List<StationResponse> getStationsOfACity(CityRequest request) throws Exception {
         return stationsRepository.getStationsOfACity(request);
+    }
+
+    @Override
+    public List<PowerUnitsResponse> getPowerUnitsOfAStation(RequestWithIdOnly request) {
+
+        List<PowerUnitEntity> entityList = stationsRepository.getPowerUnitsOfAStation(request);
+        List<PowerUnitsResponse> responseList = new ArrayList<>();
+
+        for (PowerUnitEntity entity : entityList) {
+
+            PowerUnitsResponse response = new PowerUnitsResponse();
+            response.setFastCharge(entity.getFastCharge());
+            response.setAvailable(entity.isAvailable());
+            response.setIdStation(entity.getStationEntity().getId());
+            response.setName(entity.getDescription());
+            response.setPower(entity.getPower());
+            response.setId(entity.getId());
+
+            responseList.add(response);
+        }
+        return responseList;
     }
 
 }

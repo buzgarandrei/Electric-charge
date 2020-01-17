@@ -1,6 +1,7 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entities.CompaniesEntity;
+import com.example.demo.entities.PowerUnitEntity;
 import com.example.demo.entities.StationsEntity;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
@@ -90,6 +91,7 @@ public class StationsRepositoryImpl implements StationsRepository {
     }
 
     @Override
+    @Transactional
     public StationResponse getStationById(RequestWithIdOnly request) {
 
         StationsEntity stationEntity = entityManager.find(StationsEntity.class, request.getId());
@@ -147,5 +149,16 @@ public class StationsRepositoryImpl implements StationsRepository {
 
         return responseList;
 
+    }
+
+    @Override
+    @Transactional
+    public List<PowerUnitEntity> getPowerUnitsOfAStation(RequestWithIdOnly request) {
+
+        Query query = entityManager.createQuery("select pw from PowerUnitEntity  pw where pw.stationEntity.id = :id", PowerUnitEntity.class)
+                .setParameter("id", request.getId());
+        List<PowerUnitEntity> resultList = query.getResultList();
+
+        return resultList;
     }
 }

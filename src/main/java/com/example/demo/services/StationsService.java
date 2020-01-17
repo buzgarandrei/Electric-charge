@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
+import com.example.demo.response.PowerUnitsResponse;
 import com.example.demo.response.StationResponse;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface StationsService {
     StationResponse getStationById(RequestWithIdOnly request);
 
     List<StationResponse> getStationsOfACity(CityRequest request  ) throws Exception;
+
+    List<PowerUnitsResponse> getPowerUnitsOfAStation(RequestWithIdOnly request);
 }

@@ -1,5 +1,6 @@
 package com.example.demo.repositories;
 
+import com.example.demo.entities.PowerUnitEntity;
 import com.example.demo.entities.StationsEntity;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
@@ -20,4 +21,6 @@ public interface StationsRepository {
     StationResponse getStationById(RequestWithIdOnly request);
 
     List<StationResponse> getStationsOfACity(CityRequest request) throws Exception;
+
+    List<PowerUnitEntity> getPowerUnitsOfAStation(RequestWithIdOnly request);
 }

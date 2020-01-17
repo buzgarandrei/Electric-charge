@@ -106,13 +106,15 @@ public class PowerUnitsRepositoryImpl implements PowerUnitsRepository {
         response.setPower(entity.getPower());
         response.setName(entity.getDescription());
         response.setIdStation(entity.getStationEntity().getId());
+        response.setAvailable(entity.isAvailable());
+        response.setFastCharge(entity.getFastCharge());
 
         return response;
     }
 
     @Override
     @Transactional
-    public StateResponse doCheckIn(CheckInRequest request) throws ParseException {
+    public StateResponse doCheckIn(CheckInRequest request) {
 
         StateResponse stateResponse = new StateResponse();
         PowerUnitEntity powerUnitEntity = entityManager.find(PowerUnitEntity.class, request.getIdPowerUnit());
