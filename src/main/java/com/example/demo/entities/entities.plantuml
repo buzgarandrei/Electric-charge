@@ -1,0 +1,271 @@
+@startuml
+
+title __ENTITIES's Class Diagram__\n
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.CarsEntity {
+            - autonomy : String
+            - chargingTime : String
+            - id : Long
+            - model : String
+            - usersEntityList : List<UsersEntity>
+            + CarsEntity()
+            + CarsEntity()
+            + getAutonomy()
+            + getChargingTime()
+            + getId()
+            + getIdCompany()
+            + getModel()
+            + setAutonomy()
+            + setChargingTime()
+            + setId()
+            + setIdCompany()
+            + setModel()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.ChargerequestsEntity {
+            - id : Long
+            - message : String
+            + ChargerequestsEntity()
+            + ChargerequestsEntity()
+            + getId()
+            + getMessage()
+            + getReadOrNot()
+            + getUserEntity2()
+            + getUsersEntity1()
+            + setId()
+            + setMessage()
+            + setReadOrNot()
+            + setUserEntity2()
+            + setUsersEntity1()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.ChargingQueue {
+            - amount : float
+            - endTime : Date
+            - id : Long
+            - startTime : Date
+            + ChargingQueue()
+            + getAmount()
+            + getCar()
+            + getEndTime()
+            + getId()
+            + getStartTime()
+            + getUserEntity()
+            + setAmount()
+            + setCar()
+            + setEndTime()
+            + setId()
+            + setStartTime()
+            + setUserEntity()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.CompaniesEntity {
+            - id : Long
+            - name : String
+            + CompaniesEntity()
+            + CompaniesEntity()
+            + getId()
+            + getName()
+            + setId()
+            + setName()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.ContactFormCategoriesEntity {
+            - id : Long
+            - typeOfCategory : String
+            + ContactFormCategoriesEntity()
+            + ContactFormCategoriesEntity()
+            + getId()
+            + getTypeOfCategory()
+            + setId()
+            + setTypeOfCategory()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.ContactFormMessagesEntity {
+            - id : Long
+            - messageOfContactForm : String
+            - state : int
+            + ContactFormMessagesEntity()
+            + ContactFormMessagesEntity()
+            + getContactFormCategoriesEntity()
+            + getId()
+            + getMessageOfContactForm()
+            + getState()
+            + setContactFormCategoriesEntity()
+            + setId()
+            + setMessageOfContactForm()
+            + setState()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.PowerUnitEntity {
+            - Power : float
+            - chargingQueueList : List<ChargingQueue>
+            - description : String
+            - fastCharge : boolean
+            - id : Long
+            - isAvailable : boolean
+            + PowerUnitEntity()
+            + PowerUnitEntity()
+            + getChargingQueueList()
+            + getDescription()
+            + getFastCharge()
+            + getId()
+            + getPower()
+            + getStationEntity()
+            + isAvailable()
+            + setAvailable()
+            + setChargingQueueList()
+            + setDescription()
+            + setFastCharge()
+            + setId()
+            + setPower()
+            + setStationEntity()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.StationsEntity {
+            ~ liked : List<UsersEntity>
+            - Photos : String
+            - accuracy : double
+            - address : String
+            - city : String
+            - id : Long
+            - lat : double
+            - lng : double
+            - name : String
+            - price : float
+            + StationsEntity()
+            + StationsEntity()
+            + getAccuracy()
+            + getAddress()
+            + getCity()
+            + getCompany()
+            + getId()
+            + getLat()
+            + getLiked()
+            + getLng()
+            + getName()
+            + getPhotos()
+            + getPrice()
+            + setAccuracy()
+            + setAddress()
+            + setCity()
+            + setCompany()
+            + setId()
+            + setLat()
+            + setLiked()
+            + setLng()
+            + setName()
+            + setPhotos()
+            + setPrice()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.UsersEntity {
+            ~ favourites : List<StationsEntity>
+            - Name : String
+            - Password : String
+            - Username : String
+            - carsEntityList : List<CarsEntity>
+            - city : String
+            - id : Long
+            + UsersEntity()
+            + getCarsEntityList()
+            + getCity()
+            + getFavourites()
+            + getId()
+            + getName()
+            + getPassword()
+            + getRole()
+            + getUsername()
+            + setCarsEntityList()
+            + setCity()
+            + setFavourites()
+            + setId()
+            + setName()
+            + setPassword()
+            + setRole()
+            + setUsername()
+        }
+      }
+    }
+  }
+  
+
+  com.example.demo.entities.CarsEntity o-- com.example.demo.entities.CompaniesEntity : idCompany
+  com.example.demo.entities.ChargerequestsEntity o-- com.example.demo.entities.enums.ReadEnum : readOrNot
+  com.example.demo.entities.ChargerequestsEntity o-- com.example.demo.entities.UsersEntity : userEntity2
+  com.example.demo.entities.ChargerequestsEntity o-- com.example.demo.entities.UsersEntity : usersEntity1
+  com.example.demo.entities.ChargingQueue o-- com.example.demo.entities.CarsEntity : car
+  com.example.demo.entities.ChargingQueue o-- com.example.demo.entities.UsersEntity : userEntity
+  com.example.demo.entities.ContactFormMessagesEntity o-- com.example.demo.entities.ContactFormCategoriesEntity : contactFormCategoriesEntity
+  com.example.demo.entities.PowerUnitEntity o-- com.example.demo.entities.StationsEntity : stationEntity
+  com.example.demo.entities.StationsEntity o-- com.example.demo.entities.CompaniesEntity : company
+  com.example.demo.entities.UsersEntity o-- com.example.demo.entities.enums.RoleEnum : role
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

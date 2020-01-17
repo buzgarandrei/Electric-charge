@@ -1,0 +1,255 @@
+@startuml
+
+title __REQUEST's Class Diagram__\n
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.CarRequest {
+            ~ id : Long
+            - autonomy : String
+            - chargingTime : String
+            - idCompany : Long
+            - model : String
+            + CarRequest()
+            + CarRequest()
+            + getAutonomy()
+            + getChargingTime()
+            + getId()
+            + getIdCompany()
+            + getModel()
+            + setAutonomy()
+            + setChargingTime()
+            + setId()
+            + setIdCompany()
+            + setModel()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.ChargerequestRequest {
+            - id : Long
+            - idUserEntity : Long
+            - idUserEntity2 : Long
+            - message : String
+            + ChargerequestRequest()
+            + ChargerequestRequest()
+            + getId()
+            + getIdUserEntity()
+            + getIdUserEntity2()
+            + getMessage()
+            + getReadOrNot()
+            + setId()
+            + setIdUserEntity()
+            + setIdUserEntity2()
+            + setMessage()
+            + setReadOrNot()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.CompanyRequest {
+            - id : Long
+            - name : String
+            + CompanyRequest()
+            + CompanyRequest()
+            + getId()
+            + getName()
+            + setId()
+            + setName()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.ContactFormCategoriesRequest {
+            - id : Long
+            - typeOfCategory : String
+            + ContactFormCategoriesRequest()
+            + ContactFormCategoriesRequest()
+            + getId()
+            + getTypeOfCategory()
+            + setId()
+            + setTypeOfCategory()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.ContactFormMessagesRequest {
+            - id : Long
+            - idContactFormCategoriesEntity : Long
+            - messageOfContactForm : String
+            - state : int
+            + ContactFormMessagesRequest()
+            + ContactFormMessagesRequest()
+            + getId()
+            + getIdContactFormCategoriesEntity()
+            + getMessageOfContactForm()
+            + getState()
+            + setId()
+            + setIdContactFormCategoriesEntity()
+            + setMessageOfContactForm()
+            + setState()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.FavouritesRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.LoginRequest {
+            - id : Long
+            - password : String
+            - username : String
+            + LoginRequest()
+            + LoginRequest()
+            + getId()
+            + getPassword()
+            + getUsername()
+            + setId()
+            + setPassword()
+            + setUsername()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.PowerUnitsRequest {
+            - Power : float
+            - fastCharge : Boolean
+            - id : Long
+            - isAvailable : Boolean
+            - name : String
+            - stationId : Long
+            + PowerUnitsRequest()
+            + PowerUnitsRequest()
+            + getAvailable()
+            + getFastCharge()
+            + getId()
+            + getName()
+            + getPower()
+            + getStationId()
+            + setAvailable()
+            + setFastCharge()
+            + setId()
+            + setName()
+            + setPower()
+            + setStationId()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.StationRequest {
+            - Photos : String
+            - accuracy : double
+            - address : String
+            - city : String
+            - id : Long
+            - idCompany : Long
+            - name : String
+            - price : float
+            + StationRequest()
+            + StationRequest()
+            + getAccuracy()
+            + getAddress()
+            + getCity()
+            + getId()
+            + getIdCompany()
+            + getLatLng()
+            + getName()
+            + getPhotos()
+            + getPrice()
+            + setAccuracy()
+            + setAddress()
+            + setCity()
+            + setId()
+            + setIdCompany()
+            + setLatLng()
+            + setName()
+            + setPhotos()
+            + setPrice()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.UsersRequest {
+            - city : String
+            - id : Long
+            - name : String
+            - password : String
+            - username : String
+            + UsersRequest()
+            + UsersRequest()
+            + getCity()
+            + getId()
+            + getName()
+            + getPassword()
+            + getUsername()
+            + setCity()
+            + setId()
+            + setName()
+            + setPassword()
+            + setUsername()
+        }
+      }
+    }
+  }
+  
+
+  com.example.demo.request.ChargerequestRequest o-- com.example.demo.entities.enums.ReadEnum : readOrNot
+  com.example.demo.request.StationRequest o-- com.example.demo.utils.LatLng : latLng
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

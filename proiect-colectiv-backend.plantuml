@@ -1,0 +1,1046 @@
+@startuml
+
+title __DEMO's Class Diagram__\n
+
+  namespace  {
+    class MavenWrapperDownloader {
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      class com.example.demo.DemoApplication {
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.CarsController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.CompaniesController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.ContactFormCategoriesController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.ContactFormMessagesController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.MockController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.PowerUnitsController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.RequestsController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.StationsController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.UsersController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.CarsEntity {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.ChargerequestsEntity {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.ChargingQueue {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.CompaniesEntity {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.ContactFormCategoriesEntity {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.ContactFormMessagesEntity {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.PowerUnitEntity {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.StationsEntity {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        class com.example.demo.entities.UsersEntity {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        namespace enums {
+          enum ReadEnum {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace entities {
+        namespace enums {
+          enum RoleEnum {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.CarsRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.CarsRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.ChargerequestRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.ChargerequestRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.CompaniesRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.CompaniesRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.ContactFormCategoriesRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.ContactFormCategoriesRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.ContactFormMessagesRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.ContactFormMessagesRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.MockRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.MockRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.PowerUnitsRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.PowerUnitsRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.StationsRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.StationsRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.UsersRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.UsersRepositoryImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.CarRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.ChargerequestRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.CompanyRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.ContactFormCategoriesRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.ContactFormMessagesRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.FavouritesRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.LoginRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.PowerUnitsRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.StationRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        class com.example.demo.request.UsersRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.AssignPowerUnitToStation {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.Car2Request {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.CheckInRequest {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.CheckOutRequest {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.CityRequest {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.GoingToQueueRequest {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.RequestWith2IDs {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.RequestWithIdOnly {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace request {
+        namespace specialRequests {
+          class com.example.demo.request.specialRequests.UpdateToQueue {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.CarResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.ChargerequestResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.CompaniesResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.ContactFormCategoriesResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.ContactFormMessagesResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.FavouritesResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.LoginResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.PowerUnitsResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.StateResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.StationResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.UsersResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        namespace specialResponses {
+          class com.example.demo.response.specialResponses.CheckOutResponse {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        namespace specialResponses {
+          class com.example.demo.response.specialResponses.GoingToQueueResponse {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.AuthenticationService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.AuthenticationServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.CarsService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.CarsServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.ChargeRequestsServices {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.ChargeRequestsServicesImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.CompaniesService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.CompaniesServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.ContactFormCategoriesService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.ContactFormCategoriesServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.ContactFormMessagesService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.ContactFormMessagesServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.MockService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.MockServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.PowerUnitsService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.PowerUnitsServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.StationsService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.StationsServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.UsersService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.UsersServiceImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace utils {
+        class com.example.demo.utils.LatLng {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace utils {
+        class com.example.demo.utils.UserSession {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace utils {
+        class com.example.demo.utils.Utils {
+        }
+      }
+    }
+  }
+  
+
+  com.example.demo.controllers.CarsController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.CarsController o-- com.example.demo.services.CarsService : carsService
+  com.example.demo.controllers.CompaniesController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.CompaniesController o-- com.example.demo.services.CompaniesService : companiesService
+  com.example.demo.controllers.ContactFormCategoriesController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.ContactFormCategoriesController o-- com.example.demo.services.ContactFormCategoriesService : contactFormCategoriesService
+  com.example.demo.controllers.ContactFormMessagesController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.ContactFormMessagesController o-- com.example.demo.services.ContactFormMessagesService : contactFormMessagesService
+  com.example.demo.controllers.MockController o-- com.example.demo.services.MockService : mockService
+  com.example.demo.controllers.PowerUnitsController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.PowerUnitsController o-- com.example.demo.services.PowerUnitsService : powerUnitsService
+  com.example.demo.controllers.RequestsController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.RequestsController o-- com.example.demo.services.ChargeRequestsServices : chargeRequestsServices
+  com.example.demo.controllers.StationsController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.StationsController o-- com.example.demo.services.StationsService : stationsService
+  com.example.demo.controllers.UsersController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.UsersController o-- com.example.demo.services.UsersService : usersService
+  com.example.demo.entities.CarsEntity o-- com.example.demo.entities.CompaniesEntity : idCompany
+  com.example.demo.entities.ChargerequestsEntity o-- com.example.demo.entities.enums.ReadEnum : readOrNot
+  com.example.demo.entities.ChargerequestsEntity o-- com.example.demo.entities.UsersEntity : userEntity2
+  com.example.demo.entities.ChargerequestsEntity o-- com.example.demo.entities.UsersEntity : usersEntity1
+  com.example.demo.entities.ChargingQueue o-- com.example.demo.entities.CarsEntity : car
+  com.example.demo.entities.ChargingQueue o-- com.example.demo.entities.UsersEntity : userEntity
+  com.example.demo.entities.ContactFormMessagesEntity o-- com.example.demo.entities.ContactFormCategoriesEntity : contactFormCategoriesEntity
+  com.example.demo.entities.PowerUnitEntity o-- com.example.demo.entities.StationsEntity : stationEntity
+  com.example.demo.entities.StationsEntity o-- com.example.demo.entities.CompaniesEntity : company
+  com.example.demo.entities.UsersEntity o-- com.example.demo.entities.enums.RoleEnum : role
+  com.example.demo.repositories.CarsRepositoryImpl .up.|> com.example.demo.repositories.CarsRepository
+  com.example.demo.repositories.ChargerequestRepositoryImpl .up.|> com.example.demo.repositories.ChargerequestRepository
+  com.example.demo.repositories.CompaniesRepositoryImpl .up.|> com.example.demo.repositories.CompaniesRepository
+  com.example.demo.repositories.ContactFormCategoriesRepositoryImpl .up.|> com.example.demo.repositories.ContactFormCategoriesRepository
+  com.example.demo.repositories.ContactFormMessagesRepositoryImpl .up.|> com.example.demo.repositories.ContactFormMessagesRepository
+  com.example.demo.repositories.MockRepositoryImpl .up.|> com.example.demo.repositories.MockRepository
+  com.example.demo.repositories.PowerUnitsRepositoryImpl .up.|> com.example.demo.repositories.PowerUnitsRepository
+  com.example.demo.repositories.StationsRepositoryImpl .up.|> com.example.demo.repositories.StationsRepository
+  com.example.demo.repositories.UsersRepositoryImpl .up.|> com.example.demo.repositories.UsersRepository
+  com.example.demo.request.ChargerequestRequest o-- com.example.demo.entities.enums.ReadEnum : readOrNot
+  com.example.demo.request.StationRequest o-- com.example.demo.utils.LatLng : latLng
+  com.example.demo.request.specialRequests.RequestWithIdOnly .up.|> java.io.Serializable
+  com.example.demo.response.ChargerequestResponse o-- com.example.demo.entities.enums.ReadEnum : readOrNot
+  com.example.demo.response.StationResponse o-- com.example.demo.utils.LatLng : latLng
+  com.example.demo.services.AuthenticationServiceImpl .up.|> com.example.demo.services.AuthenticationService
+  com.example.demo.services.AuthenticationServiceImpl o-- com.example.demo.repositories.UsersRepository : usersRepository
+  com.example.demo.services.CarsServiceImpl .up.|> com.example.demo.services.CarsService
+  com.example.demo.services.CarsServiceImpl o-- com.example.demo.repositories.CarsRepository : carsRepository
+  com.example.demo.services.ChargeRequestsServicesImpl .up.|> com.example.demo.services.ChargeRequestsServices
+  com.example.demo.services.ChargeRequestsServicesImpl o-- com.example.demo.repositories.ChargerequestRepository : chargerequestRepository
+  com.example.demo.services.CompaniesServiceImpl .up.|> com.example.demo.services.CompaniesService
+  com.example.demo.services.CompaniesServiceImpl o-- com.example.demo.repositories.CompaniesRepository : companiesRepository
+  com.example.demo.services.ContactFormCategoriesServiceImpl .up.|> com.example.demo.services.ContactFormCategoriesService
+  com.example.demo.services.ContactFormCategoriesServiceImpl o-- com.example.demo.repositories.ContactFormCategoriesRepository : contactFormCategoriesRepository
+  com.example.demo.services.ContactFormMessagesServiceImpl .up.|> com.example.demo.services.ContactFormMessagesService
+  com.example.demo.services.ContactFormMessagesServiceImpl o-- com.example.demo.repositories.ContactFormMessagesRepository : contactFormMessagesRepository
+  com.example.demo.services.MockServiceImpl .up.|> com.example.demo.services.MockService
+  com.example.demo.services.MockServiceImpl o-- com.example.demo.repositories.MockRepository : mockRepository
+  com.example.demo.services.PowerUnitsServiceImpl .up.|> com.example.demo.services.PowerUnitsService
+  com.example.demo.services.PowerUnitsServiceImpl o-- com.example.demo.repositories.PowerUnitsRepository : powerUnitsRepository
+  com.example.demo.services.StationsServiceImpl .up.|> com.example.demo.services.StationsService
+  com.example.demo.services.StationsServiceImpl o-- com.example.demo.repositories.StationsRepository : stationsRepository
+  com.example.demo.services.UsersServiceImpl .up.|> com.example.demo.services.UsersService
+  com.example.demo.services.UsersServiceImpl o-- com.example.demo.repositories.UsersRepository : usersRepository
+  com.example.demo.utils.UserSession o-- com.example.demo.entities.enums.RoleEnum : roleEnum
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

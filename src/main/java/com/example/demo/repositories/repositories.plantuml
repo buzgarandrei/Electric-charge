@@ -1,0 +1,325 @@
+@startuml
+
+title __REPOSITORIES's Class Diagram__\n
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.CarsRepository {
+            {abstract} + addCar()
+            {abstract} + deleteCar()
+            {abstract} + getCarById()
+            {abstract} + getCarsList()
+            {abstract} + updateCar()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.CarsRepositoryImpl {
+            ~ entityManager : EntityManager
+            + addCar()
+            + deleteCar()
+            + getCarById()
+            + getCarsList()
+            + updateCar()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.ChargerequestRepository {
+            {abstract} + addChargerequest()
+            {abstract} + deleteChargerequest()
+            {abstract} + findAll()
+            {abstract} + getRequestById()
+            {abstract} + updateChargerequest()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.ChargerequestRepositoryImpl {
+            ~ entityManager : EntityManager
+            + addChargerequest()
+            + deleteChargerequest()
+            + findAll()
+            + getRequestById()
+            + updateChargerequest()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.CompaniesRepository {
+            {abstract} + addCompany()
+            {abstract} + deleteCompany()
+            {abstract} + getCompaniesList()
+            {abstract} + getCompanyById()
+            {abstract} + updateCompany()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.CompaniesRepositoryImpl {
+            ~ entityManager : EntityManager
+            + addCompany()
+            + deleteCompany()
+            + getCompaniesList()
+            + getCompanyById()
+            + updateCompany()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.ContactFormCategoriesRepository {
+            {abstract} + addContactFormCategories()
+            {abstract} + deleteContactFormCategories()
+            {abstract} + findAll()
+            {abstract} + getContactFormCategoriesById()
+            {abstract} + updateContactFormCategories()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.ContactFormCategoriesRepositoryImpl {
+            ~ entityManager : EntityManager
+            + addContactFormCategories()
+            + deleteContactFormCategories()
+            + findAll()
+            + getContactFormCategoriesById()
+            + updateContactFormCategories()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.ContactFormMessagesRepository {
+            {abstract} + addContactFormMessages()
+            {abstract} + deleteContactFormMessages()
+            {abstract} + findAll()
+            {abstract} + getContactFormMessageById()
+            {abstract} + updateContactFormMessages()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.ContactFormMessagesRepositoryImpl {
+            ~ entityManager : EntityManager
+            + addContactFormMessages()
+            + deleteContactFormMessages()
+            + findAll()
+            + getContactFormMessageById()
+            + updateContactFormMessages()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.MockRepository {
+            {abstract} + populateDB()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.MockRepositoryImpl {
+            ~ entityManager : EntityManager
+            + generateRandomString()
+            + populateDB()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.PowerUnitsRepository {
+            {abstract} + addPowerUnit()
+            {abstract} + deleteCheckOut()
+            {abstract} + deletePowerUnit()
+            {abstract} + doCheckIn()
+            {abstract} + doCheckOut()
+            {abstract} + findAll()
+            {abstract} + getPowerUnitById()
+            {abstract} + updatePowerUnit()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.PowerUnitsRepositoryImpl {
+            ~ entityManager : EntityManager
+            + addPowerUnit()
+            + deleteCheckOut()
+            + deletePowerUnit()
+            + doCheckIn()
+            + doCheckOut()
+            + findAll()
+            + getPowerUnitById()
+            + updatePowerUnit()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.StationsRepository {
+            {abstract} + addStation()
+            {abstract} + deleteStation()
+            {abstract} + findAll()
+            {abstract} + getStationById()
+            {abstract} + getStationsOfACity()
+            {abstract} + updateStation()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.StationsRepositoryImpl {
+            ~ entityManager : EntityManager
+            + addStation()
+            + deleteStation()
+            + findAll()
+            + getStationById()
+            + getStationsOfACity()
+            + updateStation()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        interface com.example.demo.repositories.UsersRepository {
+            {abstract} + addCarToUserList()
+            {abstract} + addFavourites()
+            {abstract} + addUser()
+            {abstract} + deleteCarFromUserList()
+            {abstract} + deleteUser()
+            {abstract} + findAll()
+            {abstract} + findById()
+            {abstract} + getCarListOfUser()
+            {abstract} + getFavourites()
+            {abstract} + getUserRole()
+            {abstract} + getUsersOfARegion()
+            {abstract} + login()
+            {abstract} + makeAdmin()
+            {abstract} + makePremiumUser()
+            {abstract} + makeStationOwner()
+            {abstract} + updateUser()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace repositories {
+        class com.example.demo.repositories.UsersRepositoryImpl {
+            ~ entityManager : EntityManager
+            + addCarToUserList()
+            + addFavourites()
+            + addUser()
+            + deleteCarFromUserList()
+            + deleteUser()
+            + findAll()
+            + findById()
+            + getCarListOfUser()
+            + getFavourites()
+            + getUserRole()
+            + getUsersOfARegion()
+            + login()
+            + makeAdmin()
+            + makePremiumUser()
+            + makeStationOwner()
+            + updateUser()
+        }
+      }
+    }
+  }
+  
+
+  com.example.demo.repositories.CarsRepositoryImpl .up.|> com.example.demo.repositories.CarsRepository
+  com.example.demo.repositories.ChargerequestRepositoryImpl .up.|> com.example.demo.repositories.ChargerequestRepository
+  com.example.demo.repositories.CompaniesRepositoryImpl .up.|> com.example.demo.repositories.CompaniesRepository
+  com.example.demo.repositories.ContactFormCategoriesRepositoryImpl .up.|> com.example.demo.repositories.ContactFormCategoriesRepository
+  com.example.demo.repositories.ContactFormMessagesRepositoryImpl .up.|> com.example.demo.repositories.ContactFormMessagesRepository
+  com.example.demo.repositories.MockRepositoryImpl .up.|> com.example.demo.repositories.MockRepository
+  com.example.demo.repositories.PowerUnitsRepositoryImpl .up.|> com.example.demo.repositories.PowerUnitsRepository
+  com.example.demo.repositories.StationsRepositoryImpl .up.|> com.example.demo.repositories.StationsRepository
+  com.example.demo.repositories.UsersRepositoryImpl .up.|> com.example.demo.repositories.UsersRepository
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

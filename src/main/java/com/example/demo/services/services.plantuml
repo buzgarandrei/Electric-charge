@@ -1,0 +1,359 @@
+@startuml
+
+title __SERVICES's Class Diagram__\n
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.AuthenticationService {
+            {abstract} + getUserIdByToken()
+            {abstract} + getUserRole()
+            {abstract} + logout()
+            {abstract} + registerLogin()
+            {abstract} + validateTokenAndRole()
+            {abstract} + validateTokenAndUser()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.AuthenticationServiceImpl {
+            {static} - REQUEST_HEADER_TOKEN : String
+            {static} - VALIDATE_ACTIVE : boolean
+            - sessionMap : Map<String, UserSession>
+            + getUserIdByToken()
+            + getUserRole()
+            + logout()
+            + registerLogin()
+            + validateTokenAndRole()
+            + validateTokenAndUser()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.CarsService {
+            {abstract} + addCar()
+            {abstract} + deleteCar()
+            {abstract} + findAll()
+            {abstract} + getCarById()
+            {abstract} + updateCar()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.CarsServiceImpl {
+            + addCar()
+            + deleteCar()
+            + findAll()
+            + getCarById()
+            + updateCar()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.ChargeRequestsServices {
+            {abstract} + addChargerequest()
+            {abstract} + deleteChargerequest()
+            {abstract} + findAll()
+            {abstract} + getRequestById()
+            {abstract} + updateChargerequest()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.ChargeRequestsServicesImpl {
+            + addChargerequest()
+            + deleteChargerequest()
+            + findAll()
+            + getRequestById()
+            + updateChargerequest()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.CompaniesService {
+            {abstract} + addCompany()
+            {abstract} + deleteCompany()
+            {abstract} + findAll()
+            {abstract} + getCompanyById()
+            {abstract} + updateCompany()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.CompaniesServiceImpl {
+            + addCompany()
+            + deleteCompany()
+            + findAll()
+            + getCompanyById()
+            + updateCompany()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.ContactFormCategoriesService {
+            {abstract} + addContactFormCategories()
+            {abstract} + deleteContactFormCategories()
+            {abstract} + findAll()
+            {abstract} + getContactFormCategoriesById()
+            {abstract} + updateContactFormCategories()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.ContactFormCategoriesServiceImpl {
+            + addContactFormCategories()
+            + deleteContactFormCategories()
+            + findAll()
+            + getContactFormCategoriesById()
+            + updateContactFormCategories()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.ContactFormMessagesService {
+            {abstract} + addContactFormCategories()
+            {abstract} + deleteContactFormMessages()
+            {abstract} + findAll()
+            {abstract} + getContactFormMessageById()
+            {abstract} + updateContactFormMessages()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.ContactFormMessagesServiceImpl {
+            + addContactFormCategories()
+            + deleteContactFormMessages()
+            + findAll()
+            + getContactFormMessageById()
+            + updateContactFormMessages()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.MockService {
+            {abstract} + run()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.MockServiceImpl {
+            + run()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.PowerUnitsService {
+            {abstract} + addPowerUnit()
+            {abstract} + deleteCheckOut()
+            {abstract} + deletePowerUnit()
+            {abstract} + doCheckIn()
+            {abstract} + doCheckOut()
+            {abstract} + findAll()
+            {abstract} + getPowerUnitById()
+            {abstract} + updatePowerUnit()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.PowerUnitsServiceImpl {
+            + addPowerUnit()
+            + deleteCheckOut()
+            + deletePowerUnit()
+            + doCheckIn()
+            + doCheckOut()
+            + findAll()
+            + getPowerUnitById()
+            + updatePowerUnit()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.StationsService {
+            {abstract} + addStation()
+            {abstract} + deleteStation()
+            {abstract} + findAll()
+            {abstract} + getStationById()
+            {abstract} + getStationsOfACity()
+            {abstract} + updateStation()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.StationsServiceImpl {
+            + addStation()
+            + deleteStation()
+            + findAll()
+            + getStationById()
+            + getStationsOfACity()
+            + updateStation()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        interface com.example.demo.services.UsersService {
+            {abstract} + addCarToUserList()
+            {abstract} + addFavourites()
+            {abstract} + addUser()
+            {abstract} + deleteCarFromUserList()
+            {abstract} + deleteUser()
+            {abstract} + findAll()
+            {abstract} + findById()
+            {abstract} + getCarListOfUser()
+            {abstract} + getFavourites()
+            {abstract} + getUsersOfARegion()
+            {abstract} + login()
+            {abstract} + makeAdmin()
+            {abstract} + makePremiumUser()
+            {abstract} + makeStationOwner()
+            {abstract} + updateUser()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace services {
+        class com.example.demo.services.UsersServiceImpl {
+            + addCarToUserList()
+            + addFavourites()
+            + addUser()
+            + deleteCarFromUserList()
+            + deleteUser()
+            + findAll()
+            + findById()
+            + getCarListOfUser()
+            + getFavourites()
+            + getUsersOfARegion()
+            + login()
+            + makeAdmin()
+            + makePremiumUser()
+            + makeStationOwner()
+            + updateUser()
+        }
+      }
+    }
+  }
+  
+
+  com.example.demo.services.AuthenticationServiceImpl .up.|> com.example.demo.services.AuthenticationService
+  com.example.demo.services.AuthenticationServiceImpl o-- com.example.demo.repositories.UsersRepository : usersRepository
+  com.example.demo.services.CarsServiceImpl .up.|> com.example.demo.services.CarsService
+  com.example.demo.services.CarsServiceImpl o-- com.example.demo.repositories.CarsRepository : carsRepository
+  com.example.demo.services.ChargeRequestsServicesImpl .up.|> com.example.demo.services.ChargeRequestsServices
+  com.example.demo.services.ChargeRequestsServicesImpl o-- com.example.demo.repositories.ChargerequestRepository : chargerequestRepository
+  com.example.demo.services.CompaniesServiceImpl .up.|> com.example.demo.services.CompaniesService
+  com.example.demo.services.CompaniesServiceImpl o-- com.example.demo.repositories.CompaniesRepository : companiesRepository
+  com.example.demo.services.ContactFormCategoriesServiceImpl .up.|> com.example.demo.services.ContactFormCategoriesService
+  com.example.demo.services.ContactFormCategoriesServiceImpl o-- com.example.demo.repositories.ContactFormCategoriesRepository : contactFormCategoriesRepository
+  com.example.demo.services.ContactFormMessagesServiceImpl .up.|> com.example.demo.services.ContactFormMessagesService
+  com.example.demo.services.ContactFormMessagesServiceImpl o-- com.example.demo.repositories.ContactFormMessagesRepository : contactFormMessagesRepository
+  com.example.demo.services.MockServiceImpl .up.|> com.example.demo.services.MockService
+  com.example.demo.services.MockServiceImpl o-- com.example.demo.repositories.MockRepository : mockRepository
+  com.example.demo.services.PowerUnitsServiceImpl .up.|> com.example.demo.services.PowerUnitsService
+  com.example.demo.services.PowerUnitsServiceImpl o-- com.example.demo.repositories.PowerUnitsRepository : powerUnitsRepository
+  com.example.demo.services.StationsServiceImpl .up.|> com.example.demo.services.StationsService
+  com.example.demo.services.StationsServiceImpl o-- com.example.demo.repositories.StationsRepository : stationsRepository
+  com.example.demo.services.UsersServiceImpl .up.|> com.example.demo.services.UsersService
+  com.example.demo.services.UsersServiceImpl o-- com.example.demo.repositories.UsersRepository : usersRepository
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

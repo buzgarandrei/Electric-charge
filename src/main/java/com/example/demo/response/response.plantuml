@@ -1,0 +1,279 @@
+@startuml
+
+title __RESPONSE's Class Diagram__\n
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.CarResponse {
+            - autonomy : String
+            - chargingTime : String
+            - id : Long
+            - idCompany : Long
+            - model : String
+            + CarResponse()
+            + CarResponse()
+            + getAutonomy()
+            + getChargingTime()
+            + getId()
+            + getIdCompany()
+            + getModel()
+            + setAutonomy()
+            + setChargingTime()
+            + setId()
+            + setIdCompany()
+            + setModel()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.ChargerequestResponse {
+            - id : Long
+            - idUserEntity1 : Long
+            - idUserEntity2 : Long
+            - message : String
+            + ChargerequestResponse()
+            + ChargerequestResponse()
+            + getId()
+            + getIdUserEntity1()
+            + getIdUserEntity2()
+            + getMessage()
+            + getReadOrNot()
+            + setId()
+            + setIdUserEntity1()
+            + setIdUserEntity2()
+            + setMessage()
+            + setReadOrNot()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.CompaniesResponse {
+            - id : Long
+            - name : String
+            + CompaniesResponse()
+            + CompaniesResponse()
+            + getId()
+            + getName()
+            + setId()
+            + setName()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.ContactFormCategoriesResponse {
+            - id : Long
+            - typeOfCategory : String
+            + ContactFormCategoriesResponse()
+            + ContactFormCategoriesResponse()
+            + getId()
+            + getTypeOfCategory()
+            + setId()
+            + setTypeOfCategory()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.ContactFormMessagesResponse {
+            - id : Long
+            - idContactFormCategoriesEntity : Long
+            - messageOfContactForm : String
+            - state : int
+            + ContactFormMessagesResponse()
+            + ContactFormMessagesResponse()
+            + getId()
+            + getIdContactFormCategoriesEntity()
+            + getMessageOfContactForm()
+            + getState()
+            + setId()
+            + setIdContactFormCategoriesEntity()
+            + setMessageOfContactForm()
+            + setState()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.FavouritesResponse {
+            - IdUser : int
+            - id : int
+            - idStation : int
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.LoginResponse {
+            ~ success : boolean
+            - id : Long
+            - role : String
+            - token : String
+            - username : String
+            + LoginResponse()
+            + LoginResponse()
+            + getId()
+            + getRole()
+            + getToken()
+            + getUsername()
+            + isSuccess()
+            + setId()
+            + setRole()
+            + setSuccess()
+            + setToken()
+            + setUsername()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.PowerUnitsResponse {
+            - Power : float
+            - fastCharge : Boolean
+            - id : Long
+            - idStation : Long
+            - isAvailable : Boolean
+            - name : String
+            + PowerUnitsResponse()
+            + PowerUnitsResponse()
+            + getAvailable()
+            + getFastCharge()
+            + getId()
+            + getIdStation()
+            + getName()
+            + getPower()
+            + setAvailable()
+            + setFastCharge()
+            + setId()
+            + setIdStation()
+            + setName()
+            + setPower()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.StateResponse {
+            - success : boolean
+            + StateResponse()
+            + StateResponse()
+            + isSuccess()
+            + setSuccess()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.StationResponse {
+            - Photos : String
+            - accuracy : double
+            - address : String
+            - city : String
+            - id : Long
+            - idCompany : Long
+            - name : String
+            - price : float
+            + StationResponse()
+            + StationResponse()
+            + getAccuracy()
+            + getAddress()
+            + getCity()
+            + getId()
+            + getIdCompany()
+            + getLatLng()
+            + getName()
+            + getPhotos()
+            + getPrice()
+            + setAccuracy()
+            + setAddress()
+            + setCity()
+            + setId()
+            + setIdCompany()
+            + setLatLng()
+            + setName()
+            + setPhotos()
+            + setPrice()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace response {
+        class com.example.demo.response.UsersResponse {
+            - city : String
+            - id : Long
+            - name : String
+            - role : String
+            - username : String
+            + UsersResponse()
+            + UsersResponse()
+            + getCity()
+            + getId()
+            + getName()
+            + getRole()
+            + getUsername()
+            + setCity()
+            + setId()
+            + setName()
+            + setRole()
+            + setUsername()
+        }
+      }
+    }
+  }
+  
+
+  com.example.demo.response.ChargerequestResponse o-- com.example.demo.entities.enums.ReadEnum : readOrNot
+  com.example.demo.response.StationResponse o-- com.example.demo.utils.LatLng : latLng
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

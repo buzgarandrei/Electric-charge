@@ -1,0 +1,176 @@
+@startuml
+
+title __CONTROLLERS's Class Diagram__\n
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.CarsController {
+            + addCar()
+            + deleteCar()
+            + getCarById()
+            + getCarsList()
+            + updateCar()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.CompaniesController {
+            + addCompany()
+            + deleteCompany()
+            + getCompaniesList()
+            + getCompanyById()
+            + updateCompany()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.ContactFormCategoriesController {
+            + addContactFormsCategory()
+            + deleteContactFormsCategory()
+            + getContactFormCategories()
+            + getContactFormCategoriesById()
+            + updateContactFormsCategory()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.ContactFormMessagesController {
+            + addContactFormsMessages()
+            + deleteContactFormsMessages()
+            + getContactFormMessageById()
+            + getContactFormMessages()
+            + updateContactFormsMessages()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.MockController {
+            + trigger()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.PowerUnitsController {
+            + addPowerUnit()
+            + deletePowerUnit()
+            + doCheckIn()
+            + doCheckOut()
+            + getPowerUnitById()
+            + getPowerUnitsList()
+            + updatePowerUnit()
+            + updatePowerUnit()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.RequestsController {
+            + addChargerequest()
+            + deleteChargerequest()
+            + getChargerequestList()
+            + getRequestById()
+            + updateChargerequest()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.StationsController {
+            + addStation()
+            + deleteStation()
+            + getStationById()
+            + getStationList()
+            + getStationsOfACity()
+            + updateStation()
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.example.demo {
+      namespace controllers {
+        class com.example.demo.controllers.UsersController {
+            + addCarToUserList()
+            + addFavourites()
+            + addUser()
+            + deleteCarFromUserList()
+            + deleteUser()
+            + getCarListOfUser()
+            + getFavouritesList()
+            + getUserById()
+            + getUsersList()
+            + getUsersOfARegion()
+            + login()
+            + makeAdmin()
+            + makePremiumUser()
+            + makeStationOwner()
+            + updateUser()
+        }
+      }
+    }
+  }
+  
+
+  com.example.demo.controllers.CarsController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.CarsController o-- com.example.demo.services.CarsService : carsService
+  com.example.demo.controllers.CompaniesController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.CompaniesController o-- com.example.demo.services.CompaniesService : companiesService
+  com.example.demo.controllers.ContactFormCategoriesController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.ContactFormCategoriesController o-- com.example.demo.services.ContactFormCategoriesService : contactFormCategoriesService
+  com.example.demo.controllers.ContactFormMessagesController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.ContactFormMessagesController o-- com.example.demo.services.ContactFormMessagesService : contactFormMessagesService
+  com.example.demo.controllers.MockController o-- com.example.demo.services.MockService : mockService
+  com.example.demo.controllers.PowerUnitsController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.PowerUnitsController o-- com.example.demo.services.PowerUnitsService : powerUnitsService
+  com.example.demo.controllers.RequestsController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.RequestsController o-- com.example.demo.services.ChargeRequestsServices : chargeRequestsServices
+  com.example.demo.controllers.StationsController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.StationsController o-- com.example.demo.services.StationsService : stationsService
+  com.example.demo.controllers.UsersController o-- com.example.demo.services.AuthenticationService : authenticationService
+  com.example.demo.controllers.UsersController o-- com.example.demo.services.UsersService : usersService
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
