@@ -1,0 +1,5 @@
+{
+  "name": "ChargeTap Backend",
+  "description": "The backend of ChargeTap, by Team Diver6ty",
+  "image": "heroku/java"
+}
