@@ -3,10 +3,17 @@ package com.diver6ty.chargetapbackend
 import com.diver6ty.chargetapbackend.dao.ApplicationDaoImpl
 import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
 import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
+import com.diver6ty.chargetapbackend.exceptions.UserWithEmailAlreadyExistsException
 import com.diver6ty.chargetapbackend.model.Appointment
 import com.diver6ty.chargetapbackend.model.PowerUnit
+import com.diver6ty.chargetapbackend.model.User
+import com.diver6ty.chargetapbackend.model.jwt.SimpleJWT
 import com.diver6ty.chargetapbackend.model.repository.Repository
+import com.diver6ty.chargetapbackend.model.requests.LoginRequest
 import io.ktor.application.*
+import io.ktor.auth.Authentication
+import io.ktor.auth.UserIdPrincipal
+import io.ktor.auth.jwt.jwt
 import io.ktor.response.*
 import io.ktor.request.*
 import io.ktor.features.*
@@ -52,6 +59,16 @@ fun Application.module(testing: Boolean = false) {
     install(ContentNegotiation) {
         gson {
             setPrettyPrinting()
+        }
+    }
+
+    val simpleJwt = SimpleJWT("my-super-secret-for-jwt")
+    install(Authentication) {
+        jwt {
+            verifier(simpleJwt.verifier)
+            validate {
+                UserIdPrincipal(it.payload.getClaim("email").asString())
+            }
         }
     }
 
@@ -129,10 +146,41 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("success" to true))
             } catch (e: InvalidPowerUnitIDException) {
                 call.respond(mapOf("success" to false, "error" to e.message))
+
             } catch (e: PowerUnitFullException) {
                 call.respond(mapOf("success" to false, "error" to e.message))
             } catch (e: Exception) {
                 call.respond(mapOf("success" to false, "error" to "Invalid Appointment"))
+            }
+        }
+
+        post("/login") {
+            try {
+                val loginRequest = call.receive<LoginRequest>()
+                val user = dao.getUserByEmail(loginRequest.email)
+                if (user != null) {
+                    if (loginRequest.password == user.password) {
+                        call.respond(mapOf("success" to true))
+                    } else {
+                        call.respond(mapOf("success" to false, "error" to "Email or Password Incorrect"))
+                    }
+                } else {
+                    call.respond(mapOf("success" to false, "error" to "Email or Password Incorrect"))
+                }
+            } catch (e: Exception) {
+                call.respond(mapOf("success" to false, "error" to "Invalid Login Request"))
+            }
+        }
+
+        post("/register") {
+            try {
+                val user = call.receive<User>()
+                dao.addUser(user)
+                call.respond(mapOf("success" to true))
+            } catch (e: UserWithEmailAlreadyExistsException) {
+                call.respond(mapOf("success" to false, "error" to e.message))
+            } catch (e: Exception) {
+                call.respond(mapOf("success" to false, "error" to "Invalid Register Request"))
             }
         }
     }

@@ -2,6 +2,7 @@ package com.diver6ty.chargetapbackend.dao
 
 import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
 import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
+import com.diver6ty.chargetapbackend.exceptions.UserWithEmailAlreadyExistsException
 import com.diver6ty.chargetapbackend.model.*
 import com.diver6ty.chargetapbackend.model.responses.CarOfUserResponse
 import com.diver6ty.chargetapbackend.model.responses.PowerUnitOfStationResponse
@@ -99,6 +100,10 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
     }
 
     override fun addUser(user: User) = transaction(db) {
+        if (getUserByEmail(user.email) != null) {
+            throw UserWithEmailAlreadyExistsException()
+        }
+
         UserEntity.insert {
             it[name] = user.name
             it[email] = user.email
