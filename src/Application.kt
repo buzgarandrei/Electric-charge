@@ -1,6 +1,6 @@
 package com.diver6ty.chargetapbackend
 
-import com.diver6ty.chargetapbackend.dao.ApplicationDaoImpl
+import com.diver6ty.chargetapbackend.dao.*
 import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
 import com.diver6ty.chargetapbackend.exceptions.InvalidUserException
 import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
@@ -10,23 +10,34 @@ import com.diver6ty.chargetapbackend.model.User
 import com.diver6ty.chargetapbackend.model.jwt.SimpleJWT
 import com.diver6ty.chargetapbackend.model.repository.Repository
 import com.diver6ty.chargetapbackend.model.requests.LoginRequest
-import io.ktor.application.*
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.UserIdPrincipal
 import io.ktor.auth.authenticate
 import io.ktor.auth.jwt.jwt
 import io.ktor.auth.principal
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.features.*
-import org.slf4j.event.*
-import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.gson.*
+import io.ktor.features.CORS
+import io.ktor.features.CallLogging
+import io.ktor.features.ContentNegotiation
+import io.ktor.gson.gson
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.request.path
+import io.ktor.request.receive
+import io.ktor.response.respond
+import io.ktor.routing.get
+import io.ktor.routing.post
+import io.ktor.routing.routing
 import org.jetbrains.exposed.sql.Database
-import java.lang.IllegalStateException
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.slf4j.event.Level
 
-private val dao = ApplicationDaoImpl(Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver"))
+// local: "jdbc:mysql://root:toor@localhost:3306/chargetap-local-db"
+// remote: "jdbc:mysql://y5hjwj5t7xnjh80t:zforyzfl8nj2bbc1@bbj31ma8tye2kagi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/utu0leoqdyt869br"
+private val dao = ApplicationDaoImpl(Database.connect(System.getenv("JDBC_DATABASE_URL"), driver = "com.mysql.cj.jdbc.Driver"))
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -35,11 +46,6 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module(testing: Boolean = false) {
 
     dao.init()
-    Repository.mockStations.forEach { dao.addStation(it) }
-    Repository.mockPowerUnits.forEach { dao.addPowerUnit(it) }
-    Repository.mockUsers.forEach { dao.addUser(it) }
-    Repository.mockCars.forEach { dao.addCar(it) }
-    Repository.mockAppointments.forEach { dao.addAppointment(it) }
 
     install(CallLogging) {
         level = Level.INFO
@@ -154,7 +160,7 @@ fun Application.module(testing: Boolean = false) {
                 } catch (e: PowerUnitFullException) {
                     call.respond(mapOf("success" to false, "error" to e.message))
                 } catch (e: Exception) {
-                    call.respond(mapOf("success" to false, "error" to "Invalid Appointment"))
+                    call.respond(mapOf("success" to false, "error" to "Invalid Appointment: ${e.message}"))
                 }
             }
         }
@@ -173,7 +179,7 @@ fun Application.module(testing: Boolean = false) {
                     call.respond(mapOf("success" to false, "error" to "Email or Password Incorrect"))
                 }
             } catch (e: Exception) {
-                call.respond(mapOf("success" to false, "error" to "Invalid Login Request"))
+                call.respond(mapOf("success" to false, "error" to "Invalid Login Request: ${e.message}"))
             }
         }
 
@@ -185,7 +191,24 @@ fun Application.module(testing: Boolean = false) {
             } catch (e: UserWithEmailAlreadyExistsException) {
                 call.respond(mapOf("success" to false, "error" to e.message))
             } catch (e: Exception) {
-                call.respond(mapOf("success" to false, "error" to "Invalid Register Request"))
+                call.respond(mapOf("success" to false, "error" to "Invalid Register Request: ${e.message}"))
+            }
+        }
+
+        post("/reset") {
+            try {
+                transaction {
+                    SchemaUtils.drop(AppointmentEntity, CarEntity, PowerUnitEntity, StationEntity, UserEntity)
+                    SchemaUtils.create(AppointmentEntity, CarEntity, PowerUnitEntity, StationEntity, UserEntity)
+                }
+                Repository.mockStations.forEach { dao.addStation(it) }
+                Repository.mockPowerUnits.forEach { dao.addPowerUnit(it) }
+                Repository.mockUsers.forEach { dao.addUser(it) }
+                Repository.mockCars.forEach { dao.addCar(it) }
+                Repository.mockAppointments.forEach { dao.addAppointment(it) }
+                call.respond(mapOf("success" to true))
+            } catch(e: Exception) {
+                call.respond(mapOf("success" to false, "error" to "Database Reset Failed: ${e.message}"))
             }
         }
     }

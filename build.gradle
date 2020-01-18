@@ -44,4 +44,6 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed:0.12.1")
     implementation("com.h2database:h2:1.4.191")
     implementation("joda-time:joda-time:2.9.2")
+
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
 }
