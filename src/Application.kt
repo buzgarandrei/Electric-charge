@@ -2,6 +2,7 @@ package com.diver6ty.chargetapbackend
 
 import com.diver6ty.chargetapbackend.dao.ApplicationDaoImpl
 import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
+import com.diver6ty.chargetapbackend.exceptions.InvalidUserException
 import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
 import com.diver6ty.chargetapbackend.exceptions.UserWithEmailAlreadyExistsException
 import com.diver6ty.chargetapbackend.model.Appointment
@@ -136,6 +137,8 @@ fun Application.module(testing: Boolean = false) {
                 try {
                     val principal = call.principal<UserIdPrincipal>() ?: error("Invalid Session")
                     call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfUser(principal.name)))
+                } catch(e: InvalidUserException) {
+                    call.respond(mapOf("success" to false, "error" to e.message))
                 } catch (e: IllegalStateException) {
                     call.respond(mapOf("success" to false, "error" to e.message))
                 }

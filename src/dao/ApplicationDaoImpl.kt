@@ -1,6 +1,7 @@
 package com.diver6ty.chargetapbackend.dao
 
 import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
+import com.diver6ty.chargetapbackend.exceptions.InvalidUserException
 import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
 import com.diver6ty.chargetapbackend.exceptions.UserWithEmailAlreadyExistsException
 import com.diver6ty.chargetapbackend.model.*
@@ -176,11 +177,12 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
     }
 
     override fun getAppointmentsOfUser(email: String): List<UserAppointmentResponse> = transaction(db) {
-        (UserEntity innerJoin AppointmentEntity innerJoin PowerUnitEntity innerJoin StationEntity).select {
+        val user = getUserByEmail(email) ?: throw InvalidUserException()
+
+        (AppointmentEntity innerJoin PowerUnitEntity innerJoin StationEntity).select {
             (AppointmentEntity.powerUnitId eq PowerUnitEntity.id) and
                     (PowerUnitEntity.stationId eq StationEntity.id) and
-                    (AppointmentEntity.userId eq UserEntity.id) and
-                    (UserEntity.email eq email)
+                    (AppointmentEntity.userId eq user.id)
         }.map {
             UserAppointmentResponse(
                 it[AppointmentEntity.id],
