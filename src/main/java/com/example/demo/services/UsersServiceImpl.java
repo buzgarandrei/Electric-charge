@@ -7,10 +7,7 @@ import com.example.demo.request.specialRequests.Car2Request;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWith2IDs;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
-import com.example.demo.response.CarResponse;
-import com.example.demo.response.LoginResponse;
-import com.example.demo.response.StationResponse;
-import com.example.demo.response.UsersResponse;
+import com.example.demo.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,9 +89,13 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void addFavourites(RequestWith2IDs requestWith2IDs) throws Exception {
+    public StateResponse addFavourites(RequestWith2IDs requestWith2IDs) throws Exception {
 
-        usersRepository.addFavourites(requestWith2IDs);
+        StateResponse stateResponse = new StateResponse();
+        if(usersRepository.addFavourites(requestWith2IDs).isSuccess())
+            stateResponse.setSuccess(true);
+        else stateResponse.setSuccess(false);
+        return stateResponse;
     }
 
     @Override
@@ -122,15 +123,23 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void addCarToUserList(Car2Request request) {
+    public StateResponse addCarToUserList(Car2Request request) {
 
-        usersRepository.addCarToUserList(request);
+        StateResponse stateResponse = new StateResponse();
+        if(usersRepository.addCarToUserList(request).isSuccess())
+            stateResponse.setSuccess(true);
+        else stateResponse.setSuccess(false);
+        return stateResponse;
     }
 
     @Override
-    public void deleteCarFromUserList(Car2Request request) {
+    public StateResponse deleteCarFromUserList(Car2Request request) {
 
-        usersRepository.deleteCarFromUserList(request);
+        StateResponse stateResponse = new StateResponse();
+        if(usersRepository.deleteCarFromUserList(request).isSuccess())
+            stateResponse.setSuccess(true);
+        else stateResponse.setSuccess(false);
+        return stateResponse;
     }
 
     @Override

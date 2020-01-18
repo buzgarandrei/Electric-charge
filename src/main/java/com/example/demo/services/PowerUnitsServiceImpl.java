@@ -6,7 +6,6 @@ import com.example.demo.request.PowerUnitsRequest;
 import com.example.demo.request.specialRequests.*;
 import com.example.demo.response.PowerUnitsResponse;
 import com.example.demo.response.StateResponse;
-import com.example.demo.response.specialResponses.GoingToQueueResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,16 +42,26 @@ public class PowerUnitsServiceImpl implements PowerUnitsService {
     }
 
     @Override
-    public void addPowerUnit(PowerUnitsRequest powerUnitsRequest) throws Exception {
+    public StateResponse addPowerUnit(PowerUnitsRequest powerUnitsRequest) throws Exception {
 
-        powerUnitsRepository.addPowerUnit(powerUnitsRequest);
+        StateResponse stateResponse = new StateResponse();
+        if (powerUnitsRepository.addPowerUnit(powerUnitsRequest).isSuccess())
+            stateResponse.setSuccess(true);
+        else stateResponse.setSuccess(false);
+        return stateResponse;
 
     }
 
     @Override
-    public void updatePowerUnit(PowerUnitsRequest powerUnitsRequest) throws Exception {
+    public StateResponse updatePowerUnit(PowerUnitsRequest powerUnitsRequest) throws Exception {
 
-        powerUnitsRepository.updatePowerUnit(powerUnitsRequest);
+        StateResponse stateResponse = new StateResponse();
+
+        if (powerUnitsRepository.updatePowerUnit(powerUnitsRequest).isSuccess())
+            stateResponse.setSuccess(true);
+        else stateResponse.setSuccess(false);
+        return stateResponse;
+
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.example.demo.repositories.StationsRepository;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
+import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.utils.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class StationsServiceImpl implements StationsService {
             stationResponse.setPrice(entity.getPrice());
             stationResponse.setPhotos(entity.getPhotos());
             stationResponse.setCity(entity.getCity());
-            LatLng latLng =new LatLng();
+            LatLng latLng = new LatLng();
             latLng.setLng(entity.getLng());
             latLng.setLat(entity.getLat());
             stationResponse.setLatLng(latLng);
@@ -46,15 +47,24 @@ public class StationsServiceImpl implements StationsService {
     }
 
     @Override
-    public void addStation(StationRequest stationRequest) throws Exception {
+    public StateResponse addStation(StationRequest stationRequest) throws Exception {
 
-        stationsRepository.addStation(stationRequest);
+        StateResponse stateResponse = new StateResponse();
+        if (stationsRepository.addStation(stationRequest).isSuccess())
+            stateResponse.setSuccess(true);
+        else stateResponse.setSuccess(false);
+        return stateResponse;
+
     }
 
     @Override
-    public void updateStation(StationRequest stationRequest) throws Exception {
+    public StateResponse updateStation(StationRequest stationRequest) throws Exception {
 
-        stationsRepository.updateStation(stationRequest);
+        StateResponse stateResponse = new StateResponse();
+        if(stationsRepository.updateStation(stationRequest).isSuccess())
+            stateResponse.setSuccess(true);
+        else stateResponse.setSuccess(false);
+        return stateResponse;
     }
 
     @Override

@@ -73,8 +73,9 @@ public class CarsController {
         StateResponse stateResponse = new StateResponse();
 
         try {
-            carsService.addCar(carRequest);
-            stateResponse.setSuccess(true);
+            if(carsService.addCar(carRequest).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
         } catch (Exception e) {
             e.printStackTrace();
             stateResponse.setSuccess(false);
@@ -97,8 +98,9 @@ public class CarsController {
         StateResponse stateResponse = new StateResponse();
 
         try {
-            carsService.updateCar(carRequest);
-            stateResponse.setSuccess(true);
+            if(carsService.updateCar(carRequest).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
         } catch (Exception e) {
             e.printStackTrace();
             stateResponse.setSuccess(false);

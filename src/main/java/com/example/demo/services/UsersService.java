@@ -5,10 +5,7 @@ import com.example.demo.request.specialRequests.Car2Request;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWith2IDs;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
-import com.example.demo.response.CarResponse;
-import com.example.demo.response.LoginResponse;
-import com.example.demo.response.StationResponse;
-import com.example.demo.response.UsersResponse;
+import com.example.demo.response.*;
 
 import java.util.List;
 
@@ -26,7 +23,7 @@ public interface UsersService {
 
     public UsersResponse findById(RequestWithIdOnly request);
 
-    void addFavourites(RequestWith2IDs requestWith2IDs) throws Exception;
+    StateResponse addFavourites(RequestWith2IDs requestWith2IDs) throws Exception;
 
     List<StationResponse> getFavourites(RequestWithIdOnly idOnly);
 
@@ -36,9 +33,9 @@ public interface UsersService {
 
     void makePremiumUser(RequestWithIdOnly requestWithIdOnly) throws Exception;
 
-    void addCarToUserList(Car2Request request);
+    StateResponse addCarToUserList(Car2Request request);
 
-    void deleteCarFromUserList(Car2Request request);
+    StateResponse deleteCarFromUserList(Car2Request request);
 
     List<CarResponse> getCarListOfUser(RequestWithIdOnly idOnly);
 

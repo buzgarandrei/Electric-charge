@@ -5,6 +5,7 @@ import com.example.demo.entities.StationsEntity;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
+import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.utils.LatLng;
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,9 @@ public class StationsRepositoryImpl implements StationsRepository {
 
     @Override
     @Transactional
-    public void addStation(StationRequest stationRequest) throws Exception {
+    public StateResponse addStation(StationRequest stationRequest) throws Exception {
+
+        StateResponse stateResponse = new StateResponse();
         StationsEntity stationsEntity = new StationsEntity();
         stationsEntity.setAddress(stationRequest.getAddress());
         stationsEntity.setName(stationRequest.getName());
@@ -44,15 +47,22 @@ public class StationsRepositoryImpl implements StationsRepository {
         stationsEntity.setLat(stationRequest.getLatLng().getLat());
         stationsEntity.setLng(stationRequest.getLatLng().getLng());
         stationsEntity.setAccuracy(stationRequest.getAccuracy());
+        if(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()) == null) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
         stationsEntity.setCompany(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()));
 
         entityManager.persist(stationsEntity);
+        stateResponse.setSuccess(true);
+        return stateResponse;
     }
 
     @Override
     @Transactional
-    public void updateStation(StationRequest stationRequest) throws Exception {
+    public StateResponse updateStation(StationRequest stationRequest) throws Exception {
 
+        StateResponse stateResponse = new StateResponse();
         StationsEntity stationsEntity = entityManager.find(StationsEntity.class, stationRequest.getId());
 
         if(stationRequest.getPhotos() != null)
@@ -69,13 +79,21 @@ public class StationsRepositoryImpl implements StationsRepository {
         //if(stationRequest.getAccuracy() != 0)
             //stationsEntity.setAccuracy(stationRequest.getAccuracy());
 
-        if(stationRequest.getLatLng().getLat() != 0)
-            stationsEntity.setLat(stationRequest.getLatLng().getLat());
-        if(stationRequest.getLatLng().getLng() != 0)
-            stationsEntity.setLng(stationRequest.getLatLng().getLng());
+        if(stationRequest.getLatLng() != null) {
+            if (stationRequest.getLatLng().getLat() != 0)
+                stationsEntity.setLat(stationRequest.getLatLng().getLat());
+            if (stationRequest.getLatLng().getLng() != 0)
+                stationsEntity.setLng(stationRequest.getLatLng().getLng());
+        }
         if(stationRequest.getIdCompany() != null)
+            if(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()) == null) {
+                stateResponse.setSuccess(false);
+                return stateResponse;
+            }
             stationsEntity.setCompany(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()));
         entityManager.merge(stationsEntity);
+        stateResponse.setSuccess(true);
+        return stateResponse;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.example.demo.repositories.CarsRepository;
 import com.example.demo.request.CarRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
 import com.example.demo.response.CarResponse;
+import com.example.demo.response.StateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,16 +46,35 @@ public class CarsServiceImpl implements CarsService {
     }
 
     @Override
-    public void addCar(CarRequest carRequest) throws Exception{
+    public StateResponse addCar(CarRequest carRequest) throws Exception{
 
-        carsRepository.addCar(carRequest);
+        StateResponse stateResponse = new StateResponse();
+        try {
+            if(carsRepository.addCar(carRequest).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
+
+        }
+        catch (Exception e) {
+            stateResponse.setSuccess(false);
+        }
+        return stateResponse;
 
     }
 
     @Override
-    public void updateCar(CarRequest carRequest) throws Exception{
+    public StateResponse updateCar(CarRequest carRequest) throws Exception{
 
-        carsRepository.updateCar(carRequest);
+        StateResponse stateResponse = new StateResponse();
+        try {
+            if(carsRepository.updateCar(carRequest).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
+        }
+        catch (Exception e) {
+            stateResponse.setSuccess(false);
+        }
+        return stateResponse;
 
     }
 

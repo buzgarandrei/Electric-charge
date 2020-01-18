@@ -8,6 +8,7 @@ import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWith2IDs;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
 import com.example.demo.response.CarResponse;
+import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.response.UsersResponse;
 
@@ -24,7 +25,7 @@ public interface UsersRepository {
 
     public UsersResponse findById(RequestWithIdOnly request);
 
-    void addFavourites(RequestWith2IDs requestWith2IDs) throws Exception;
+    StateResponse addFavourites(RequestWith2IDs requestWith2IDs) throws Exception;
 
     List<StationResponse> getFavourites(RequestWithIdOnly idOnly);
 
@@ -36,9 +37,9 @@ public interface UsersRepository {
 
     RoleEnum getUserRole(Long id);
 
-    void addCarToUserList(Car2Request request);
+    StateResponse addCarToUserList(Car2Request request);
 
-    void deleteCarFromUserList(Car2Request request);
+    StateResponse deleteCarFromUserList(Car2Request request);
 
     List<CarResponse> getCarListOfUser(RequestWithIdOnly idOnly);
 

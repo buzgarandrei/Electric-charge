@@ -8,6 +8,7 @@ import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWith2IDs;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
 import com.example.demo.response.CarResponse;
+import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.response.UsersResponse;
 import org.springframework.stereotype.Repository;
@@ -62,8 +63,8 @@ public class UsersRepositoryImpl implements UsersRepository {
                 usersEntity.setName(usersRequest.getName());
             if (usersRequest.getPassword() != null)
                 usersEntity.setPassword(usersRequest.getPassword());
-            if (usersRequest.getUsername() != null)
-                usersEntity.setUsername(usersRequest.getUsername());
+            String string = usersEntity.getUsername();
+            usersEntity.setUsername(string);
             if(usersRequest.getCity()!= null) {
                 usersEntity.setCity(usersRequest.getCity());
         }
@@ -116,12 +117,23 @@ public class UsersRepositoryImpl implements UsersRepository {
 
     @Override
     @Transactional
-    public void addFavourites(RequestWith2IDs requestWith2IDs) {
+    public StateResponse addFavourites(RequestWith2IDs requestWith2IDs) {
 
+        StateResponse stateResponse = new StateResponse();
         UsersEntity userEntity = entityManager.find(UsersEntity.class, requestWith2IDs.getIdUser());
+        if(userEntity == null) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
         StationsEntity stationsEntity = entityManager.find(StationsEntity.class, requestWith2IDs.getIdStation());
+        if(stationsEntity == null) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
         userEntity.getFavourites().add(stationsEntity);
         entityManager.merge(userEntity);
+        stateResponse.setSuccess(true);
+        return stateResponse;
 
 
     }
@@ -197,24 +209,61 @@ public class UsersRepositoryImpl implements UsersRepository {
 
     @Override
     @Transactional
-    public void addCarToUserList(Car2Request request) {
+    public StateResponse addCarToUserList(Car2Request request) {
 
+        StateResponse stateResponse = new StateResponse();
         CarsEntity carsEntity = entityManager.find(CarsEntity.class,request.getIdCar());
+        if(carsEntity == null) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
         UsersEntity usersEntity = entityManager.find(UsersEntity.class,request.getIdUser());
+        if(usersEntity == null) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
         usersEntity.getCarsEntityList().add(carsEntity);
 
         entityManager.persist(usersEntity);
+        stateResponse.setSuccess(true);
+        return stateResponse;
     }
 
     @Override
     @Transactional
-    public void deleteCarFromUserList(Car2Request request) {
+    public StateResponse deleteCarFromUserList(Car2Request request) {
 
+        StateResponse stateResponse = new StateResponse();
         CarsEntity carsEntity = entityManager.find(CarsEntity.class,request.getIdCar());
+        if(carsEntity == null) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
         UsersEntity usersEntity = entityManager.find(UsersEntity.class,request.getIdUser());
+        if(usersEntity == null) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
+        Query query = entityManager.createQuery("select user.carsEntityList from UsersEntity user where user.id = :id",Collection.class)
+                                    .setParameter("id", request.getIdUser());
+        List<CarsEntity> carsList = query.getResultList();
+        boolean found = false;
+        for (CarsEntity entity : carsList) {
+            if(entity.getId() == request.getIdCar()) {
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
+
         usersEntity.getCarsEntityList().remove(carsEntity.getId());
 
         entityManager.merge(usersEntity);
+        stateResponse.setSuccess(true);
+        return stateResponse;
     }
 
     @Override
