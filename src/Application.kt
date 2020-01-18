@@ -1,5 +1,7 @@
 package com.diver6ty.chargetapbackend
 
+import com.diver6ty.chargetapbackend.dao.ApplicationDaoImpl
+import com.diver6ty.chargetapbackend.model.repository.Repository
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.request.*
@@ -8,12 +10,22 @@ import org.slf4j.event.*
 import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.gson.*
+import org.jetbrains.exposed.sql.Database
+
+private val dao = ApplicationDaoImpl(Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver"))
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
+
+    dao.init()
+    Repository.mockStations.forEach { dao.addStation(it) }
+    Repository.mockPowerUnits.forEach { dao.addPowerUnit(it) }
+    Repository.mockUsers.forEach { dao.addUser(it) }
+    Repository.mockCars.forEach { dao.addCar(it) }
+
     install(CallLogging) {
         level = Level.INFO
         filter { call -> call.request.path().startsWith("/") }
@@ -33,16 +45,43 @@ fun Application.module(testing: Boolean = false) {
 
     install(ContentNegotiation) {
         gson {
+            setPrettyPrinting()
         }
     }
 
     routing {
         get("/stations") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+            call.respond(mapOf("success" to true, "data" to dao.getAllStations()))
         }
 
-        get("/json/gson") {
-            call.respond(mapOf("hello" to "world"))
+        get("/powerUnits") {
+            call.respond(mapOf("success" to true, "data" to dao.getAllPowerUnits()))
+        }
+
+        get("/powerUnits/{stationId}") {
+            val stationId = call.parameters["stationId"]?.toIntOrNull()
+            if (stationId == null) {
+                call.respond(mapOf("success" to false, "error" to "Station ID cannot be null"))
+            } else {
+                call.respond(mapOf("success" to true, "data" to dao.getPowerUnitsOfStation(stationId)))
+            }
+        }
+
+        get("/cars") {
+            call.respond(mapOf("success" to true, "data" to dao.getAllCars()))
+        }
+
+        get("/cars/{userId}") {
+            val userId = call.parameters["userId"]?.toIntOrNull()
+            if (userId == null) {
+                call.respond(mapOf("success" to false, "error" to "User ID cannot be null"))
+            } else {
+                call.respond(mapOf("success" to true, "data" to dao.getCarsOfUser(userId)))
+            }
+        }
+
+        get("/users") {
+            call.respond(mapOf("success" to true, "data" to dao.getAllUsers()))
         }
     }
 }
