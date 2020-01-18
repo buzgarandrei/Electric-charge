@@ -5,15 +5,12 @@ import com.example.demo.request.PowerUnitsRequest;
 import com.example.demo.request.specialRequests.*;
 import com.example.demo.response.PowerUnitsResponse;
 import com.example.demo.response.StateResponse;
-import com.example.demo.response.specialResponses.GoingToQueueResponse;
-import com.example.demo.utils.Utils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.text.ParseException;
 import java.util.*;
 
 @Repository
@@ -33,33 +30,46 @@ public class PowerUnitsRepositoryImpl implements PowerUnitsRepository {
 
     @Override
     @Transactional
-    public void addPowerUnit(PowerUnitsRequest powerUnitsRequest) throws Exception {
+    public StateResponse addPowerUnit(PowerUnitsRequest powerUnitsRequest) throws Exception {
 
+        StateResponse stateResponse = new StateResponse();
         try {
             PowerUnitEntity entity = new PowerUnitEntity();
             entity.setDescription(powerUnitsRequest.getName());
             entity.setPower(powerUnitsRequest.getPower());
 
             StationsEntity stationsEntity = entityManager.find(StationsEntity.class, powerUnitsRequest.getStationId());
+            if(stationsEntity == null) {
+                stateResponse.setSuccess(false);
+                return stateResponse;
+            }
             entity.setStationEntity(stationsEntity);
             entity.setFastCharge(powerUnitsRequest.getFastCharge());
             entity.setAvailable(powerUnitsRequest.getAvailable());
 
             entityManager.persist(entity);
+            stateResponse.setSuccess(true);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("bad power unit id");
+            stateResponse.setSuccess(false);
         }
+        return stateResponse;
     }
 
     @Override
     @Transactional
-    public void updatePowerUnit(PowerUnitsRequest powerUnitsRequest) throws Exception {
+    public StateResponse updatePowerUnit(PowerUnitsRequest powerUnitsRequest) throws Exception {
 
+        StateResponse stateResponse = new StateResponse( );
         try {
 
             PowerUnitEntity entity = entityManager.find(PowerUnitEntity.class, powerUnitsRequest.getId());
 
+            if(entity == null) {
+                stateResponse.setSuccess(false);
+                return stateResponse;
+            }
             if(powerUnitsRequest.getName() != null)
                 entity.setDescription(powerUnitsRequest.getName());
             if(powerUnitsRequest.getPower() != 0)
@@ -68,6 +78,11 @@ public class PowerUnitsRepositoryImpl implements PowerUnitsRepository {
             if(powerUnitsRequest.getStationId() != null) {
                 StationsEntity stationsEntity = entityManager.find(StationsEntity.class, powerUnitsRequest.getStationId());
                 entity.setStationEntity(stationsEntity);
+
+                if(entity.getStationEntity() == null) {
+                    stateResponse.setSuccess(false);
+                    return stateResponse;
+                }
             }
             if(powerUnitsRequest.getFastCharge() != null) {
                 entity.setFastCharge(powerUnitsRequest.getFastCharge());
@@ -75,11 +90,14 @@ public class PowerUnitsRepositoryImpl implements PowerUnitsRepository {
             if(powerUnitsRequest.getAvailable() != null) entity.setAvailable(powerUnitsRequest.getAvailable());
 
             entityManager.merge(entity);
+            stateResponse.setSuccess(true);
         }
         catch (Exception e) {
             e.printStackTrace();
             System.out.println("Bad Power Unit id or other fields");
+            stateResponse.setSuccess(false);
         }
+        return stateResponse;
 
     }
 

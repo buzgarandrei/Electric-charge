@@ -71,8 +71,9 @@ public class PowerUnitsController {
 
         StateResponse stateResponse = new StateResponse();
         try {
-            powerUnitsService.addPowerUnit(powerUnitsRequest);
-            stateResponse.setSuccess(true);
+            if(powerUnitsService.addPowerUnit(powerUnitsRequest).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -95,8 +96,10 @@ public class PowerUnitsController {
 
         StateResponse stateResponse = new StateResponse();
         try {
-            powerUnitsService.updatePowerUnit(powerUnitsRequest);
-            stateResponse.setSuccess(true);
+            if(powerUnitsService.updatePowerUnit(powerUnitsRequest).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
+
         }
         catch (Exception e) {
             e.printStackTrace();

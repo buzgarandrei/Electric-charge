@@ -7,6 +7,7 @@ import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
 import com.example.demo.response.PowerUnitsResponse;
+import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.utils.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,20 @@ public class StationsServiceImpl implements StationsService {
     }
 
     @Override
-    public void addStation(StationRequest stationRequest) throws Exception {
+    public StateResponse addStation(StationRequest stationRequest) throws Exception {
 
-        stationsRepository.addStation(stationRequest);
+        StateResponse stateResponse = new StateResponse();
+        try {
+             stateResponse = stationsRepository.addStation(stationRequest);
+            if(stateResponse.isSuccess())
+                stateResponse.setSuccess(true);
+            else
+                stateResponse.setSuccess(false);
+        }
+        catch (Exception e) {
+            stateResponse.setSuccess(false);
+        }
+        return stateResponse;
     }
 
     @Override
@@ -60,9 +72,20 @@ public class StationsServiceImpl implements StationsService {
     }
 
     @Override
-    public void deleteStation(RequestWithIdOnly id) throws Exception {
+    public StateResponse deleteStation(RequestWithIdOnly id) throws Exception {
 
-        stationsRepository.deleteStation(id);
+        StateResponse stateResponse = new StateResponse();
+        try {
+            stateResponse = stationsRepository.deleteStation(id);
+            if(stateResponse.isSuccess())
+                stateResponse.setSuccess(true);
+            else
+                stateResponse.setSuccess(false);
+        }
+        catch (Exception e) {
+            stateResponse.setSuccess(false);
+        }
+        return stateResponse;
     }
 
     @Override

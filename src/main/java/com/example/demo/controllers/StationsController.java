@@ -88,8 +88,9 @@ public class StationsController {
 
         StateResponse stateResponse = new StateResponse();
         try {
-            stationsService.addStation(stationRequest);
-            stateResponse.setSuccess(true);
+            if(stationsService.addStation(stationRequest).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -136,8 +137,9 @@ public class StationsController {
 
         StateResponse stateResponse = new StateResponse();
         try {
-            stationsService.deleteStation(id);
-            stateResponse.setSuccess(true);
+            if(stationsService.deleteStation(id).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -179,8 +179,9 @@ public class UsersController {
 
         StateResponse stateResponse = new StateResponse();
         try {
-            usersService.addFavourites(requestWith2IDs);
-            stateResponse.setSuccess(true);
+            if(usersService.addFavourites(requestWith2IDs).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -290,11 +291,13 @@ public class UsersController {
         StateResponse stateResponse = new StateResponse();
 
         try {
-            usersService.addCarToUserList(request);
-            stateResponse.setSuccess(true);
+            if(usersService.addCarToUserList(request).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
         }
         catch (Exception e) {
             e.printStackTrace();
+            stateResponse.setSuccess(false);
         }
 
         return stateResponse;
@@ -309,10 +312,13 @@ public class UsersController {
         StateResponse stateResponse = new StateResponse();
 
         try {
-            usersService.deleteCarFromUserList(request);
-            stateResponse.setSuccess(true);
+            if(usersService.deleteCarFromUserList(request).isSuccess())
+                stateResponse.setSuccess(true);
+            else
+                stateResponse.setSuccess(false);
         }
         catch (Exception e) {
+            stateResponse.setSuccess(false);
             e.printStackTrace();
         }
 

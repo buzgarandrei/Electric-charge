@@ -6,6 +6,7 @@ import com.example.demo.entities.StationsEntity;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
+import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.utils.LatLng;
 import org.springframework.stereotype.Repository;
@@ -35,7 +36,9 @@ public class StationsRepositoryImpl implements StationsRepository {
 
     @Override
     @Transactional
-    public void addStation(StationRequest stationRequest) throws Exception {
+    public StateResponse addStation(StationRequest stationRequest) throws Exception {
+        //StateResponse
+        //deny add innexisting company
         StationsEntity stationsEntity = new StationsEntity();
         stationsEntity.setAddress(stationRequest.getAddress());
         stationsEntity.setName(stationRequest.getName());
@@ -46,8 +49,15 @@ public class StationsRepositoryImpl implements StationsRepository {
         stationsEntity.setLng(stationRequest.getLatLng().getLng());
         stationsEntity.setAccuracy(stationRequest.getAccuracy());
         stationsEntity.setCompany(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()));
+        StateResponse stateResponse = new StateResponse();
+        if(stationsEntity.getCompany() == null) {
+            stateResponse.setSuccess(false);
+            return stateResponse;
+        }
+        stateResponse.setSuccess(true);
 
         entityManager.persist(stationsEntity);
+        return stateResponse;
     }
 
     @Override
@@ -76,18 +86,27 @@ public class StationsRepositoryImpl implements StationsRepository {
             stationsEntity.setLng(stationRequest.getLatLng().getLng());
         if(stationRequest.getIdCompany() != null)
             stationsEntity.setCompany(entityManager.find(CompaniesEntity.class, stationRequest.getIdCompany()));
+        if(stationsEntity.getCompany() == null) return;
         entityManager.merge(stationsEntity);
     }
 
     @Override
     @Transactional
-    public void deleteStation(RequestWithIdOnly id) throws Exception {
+    public StateResponse deleteStation(RequestWithIdOnly id) throws Exception {
+        StateResponse stateResponse = new StateResponse();
         try {
             StationsEntity entity = entityManager.find(StationsEntity.class, id.getId());
+            if(entity == null) {
+                stateResponse.setSuccess(false);
+                return stateResponse;
+            }
             entityManager.remove(entity);
+            stateResponse.setSuccess(true);
         } catch (Exception e) {
             System.out.println("bad station id");
+            stateResponse.setSuccess(false);
         }
+        return stateResponse;
     }
 
     @Override
