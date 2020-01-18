@@ -25,6 +25,7 @@ fun Application.module(testing: Boolean = false) {
     Repository.mockPowerUnits.forEach { dao.addPowerUnit(it) }
     Repository.mockUsers.forEach { dao.addUser(it) }
     Repository.mockCars.forEach { dao.addCar(it) }
+    Repository.mockAppointments.forEach { dao.addAppointment(it) }
 
     install(CallLogging) {
         level = Level.INFO
@@ -92,6 +93,10 @@ fun Application.module(testing: Boolean = false) {
 
         get("/users") {
             call.respond(mapOf("success" to true, "data" to dao.getAllUsers()))
+        }
+
+        get("/appointments") {
+            call.respond(mapOf("success" to true, "data" to dao.getAllAppointments()))
         }
     }
 }

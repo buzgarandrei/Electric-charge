@@ -6,6 +6,7 @@ import com.diver6ty.chargetapbackend.model.responses.PowerUnitOfStationResponse
 import com.diver6ty.chargetapbackend.model.responses.UserAppointmentResponse
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.joda.time.DateTime
 
 class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
     override fun init() = transaction(db) {
@@ -17,8 +18,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
             it[id] = appointment.id
             it[userId] = appointment.userId
             it[powerUnitId] = appointment.powerUnitId
-            it[startTime] = appointment.startTime
-            it[endTime] = appointment.endTime
+            it[startTime] = DateTime(appointment.startTime)
+            it[endTime] = DateTime(appointment.endTime)
         }
         Unit
     }
@@ -129,8 +130,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[AppointmentEntity.id],
                 it[AppointmentEntity.userId],
                 it[AppointmentEntity.powerUnitId],
-                it[AppointmentEntity.startTime],
-                it[AppointmentEntity.endTime]
+                it[AppointmentEntity.startTime].toString(),
+                it[AppointmentEntity.endTime].toString()
             )
         }
     }
@@ -143,8 +144,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[AppointmentEntity.id],
                 it[AppointmentEntity.userId],
                 it[AppointmentEntity.powerUnitId],
-                it[AppointmentEntity.startTime],
-                it[AppointmentEntity.endTime]
+                it[AppointmentEntity.startTime].toString(),
+                it[AppointmentEntity.endTime].toString()
             )
         }
     }
@@ -157,8 +158,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }.map {
             UserAppointmentResponse(
                 it[AppointmentEntity.id],
-                it[AppointmentEntity.startTime],
-                it[AppointmentEntity.endTime],
+                it[AppointmentEntity.startTime].toString(),
+                it[AppointmentEntity.endTime].toString(),
                 UserAppointmentResponse.UserAppointmentPowerUnitResponse(
                     PowerUnitOfStationResponse(
                         it[PowerUnitEntity.id],

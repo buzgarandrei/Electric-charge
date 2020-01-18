@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 data class UserAppointmentResponse(
     val id: Int,
-    val startTime: DateTime,
-    val endTime: DateTime,
+    val startTime: String,
+    val endTime: String,
     val powerUnitInfo: UserAppointmentPowerUnitResponse
 ) {
     data class UserAppointmentPowerUnitResponse(
