@@ -6,7 +6,7 @@ import com.diver6ty.chargetapbackend.model.responses.PowerUnitOfStationResponse
 import com.diver6ty.chargetapbackend.model.responses.UserAppointmentResponse
 import kotlinx.io.core.Closeable
 
-interface ApplicationDao: Closeable {
+interface ApplicationDao : Closeable {
     fun init()
 
     fun addAppointment(appointment: Appointment)
@@ -19,16 +19,17 @@ interface ApplicationDao: Closeable {
     fun getCarsOfUser(userId: Int): List<CarOfUserResponse>
 
     //fun getAllAppointments(): List<Appointment>
+    fun getAppointmentsOfPowerUnit(powerUnitId: Int): List<Appointment>
     fun getAppointmentsOfUser(userId: Int): List<UserAppointmentResponse>
-    //fun deleteAppointmentById(id: Int)
+    fun deleteAppointmentById(id: Int)
 
     //fun getAllPowerUnits(): List<PowerUnit>
     fun getPowerUnitsOfStation(stationId: Int): List<PowerUnitOfStationResponse>
     //fun deletePowerUnitById(id: Int)
 
     //fun getAllUsers(): List<User>
-    fun deleteUserById(id: Int)
+    //fun deleteUserById(id: Int)
 
     //fun getAllStations(): List<Station>
-    fun getAllStationsByKeyword(keyword: String): List<Station>
+    fun getStationsByKeyword(keyword: String): List<Station>
 }
