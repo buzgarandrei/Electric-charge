@@ -54,6 +54,16 @@ fun Application.module(testing: Boolean = false) {
             call.respond(mapOf("success" to true, "data" to dao.getAllStations()))
         }
 
+        get("/stations/{keyword}") {
+            val keyword = call.parameters["keyword"]
+            if (keyword.isNullOrBlank()) {
+                call.respond(mapOf("success" to false, "error" to "Invalid Search Keyword"))
+            } else {
+                call.respond(mapOf("success" to true, "data" to dao.getStationsByKeyword(keyword)))
+            }
+            call.respond(mapOf("success" to true, "data" to dao.getAllStations()))
+        }
+
         get("/powerUnits") {
             call.respond(mapOf("success" to true, "data" to dao.getAllPowerUnits()))
         }
@@ -61,7 +71,7 @@ fun Application.module(testing: Boolean = false) {
         get("/powerUnits/{stationId}") {
             val stationId = call.parameters["stationId"]?.toIntOrNull()
             if (stationId == null) {
-                call.respond(mapOf("success" to false, "error" to "Station ID cannot be null"))
+                call.respond(mapOf("success" to false, "error" to "Invalid Station ID"))
             } else {
                 call.respond(mapOf("success" to true, "data" to dao.getPowerUnitsOfStation(stationId)))
             }
@@ -74,7 +84,7 @@ fun Application.module(testing: Boolean = false) {
         get("/cars/{userId}") {
             val userId = call.parameters["userId"]?.toIntOrNull()
             if (userId == null) {
-                call.respond(mapOf("success" to false, "error" to "User ID cannot be null"))
+                call.respond(mapOf("success" to false, "error" to "Invalid User ID"))
             } else {
                 call.respond(mapOf("success" to true, "data" to dao.getCarsOfUser(userId)))
             }

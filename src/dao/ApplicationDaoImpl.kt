@@ -233,7 +233,7 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
 
     override fun getStationsByKeyword(keyword: String): List<Station> = transaction(db) {
         StationEntity.select {
-            StationEntity.address like "%$keyword%"
+            StationEntity.address.lowerCase() like "%${keyword.toLowerCase()}%"
         }.map {
             Station(
                 it[StationEntity.id],
