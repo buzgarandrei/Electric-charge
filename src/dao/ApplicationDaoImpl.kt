@@ -65,6 +65,18 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         Unit
     }
 
+    override fun getAllUsers(): List<User> = transaction(db) {
+        UserEntity.selectAll().map {
+            User(
+                it[UserEntity.id],
+                it[UserEntity.name],
+                it[UserEntity.email],
+                it[UserEntity.password],
+                it[UserEntity.profilePictureUrl]
+            )
+        }
+    }
+
     override fun addUser(user: User) = transaction(db) {
         UserEntity.insert {
             it[id] = user.id
@@ -74,6 +86,23 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
             it[profilePictureUrl] = user.profilePictureUrl
         }
         Unit
+    }
+
+    override fun getAllCars(): List<Car> = transaction(db) {
+        CarEntity.selectAll().map {
+            Car(
+                it[CarEntity.id],
+                it[CarEntity.year],
+                it[CarEntity.brand],
+                it[CarEntity.model],
+                it[CarEntity.extraInfo],
+                it[CarEntity.plate],
+                it[CarEntity.powerKwh],
+                it[CarEntity.autonomyKm],
+                it[CarEntity.photoUrl],
+                it[CarEntity.userId]
+            )
+        }
     }
 
     override fun getCarsOfUser(userId: Int): List<CarOfUserResponse> = transaction(db) {
@@ -90,6 +119,18 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[CarEntity.powerKwh],
                 it[CarEntity.autonomyKm],
                 it[CarEntity.photoUrl]
+            )
+        }
+    }
+
+    override fun getAllAppointments(): List<Appointment> = transaction(db) {
+        AppointmentEntity.selectAll().map {
+            Appointment(
+                it[AppointmentEntity.id],
+                it[AppointmentEntity.userId],
+                it[AppointmentEntity.powerUnitId],
+                it[AppointmentEntity.startTime],
+                it[AppointmentEntity.endTime]
             )
         }
     }
@@ -148,6 +189,19 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         Unit
     }
 
+    override fun getAllPowerUnits(): List<PowerUnit> = transaction(db) {
+        PowerUnitEntity.selectAll().map {
+            PowerUnit(
+                it[PowerUnitEntity.id],
+                it[PowerUnitEntity.stationId],
+                it[PowerUnitEntity.powerKw],
+                it[PowerUnitEntity.priceKwh],
+                it[PowerUnitEntity.totalNrOutlets],
+                it[PowerUnitEntity.busyNrOutlets]
+            )
+        }
+    }
+
     override fun getPowerUnitsOfStation(stationId: Int): List<PowerUnitOfStationResponse> = transaction(db) {
         PowerUnitEntity.select {
             PowerUnitEntity.stationId eq stationId
@@ -158,6 +212,21 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[PowerUnitEntity.priceKwh],
                 it[PowerUnitEntity.totalNrOutlets],
                 it[PowerUnitEntity.busyNrOutlets]
+            )
+        }
+    }
+
+    override fun getAllStations(): List<Station> = transaction(db) {
+        StationEntity.selectAll().map {
+            Station(
+                it[StationEntity.id],
+                it[StationEntity.name],
+                it[StationEntity.address],
+                it[StationEntity.photoUrl],
+                it[StationEntity.latitude],
+                it[StationEntity.longitude],
+                it[StationEntity.rating],
+                it[StationEntity.nrReviews]
             )
         }
     }
