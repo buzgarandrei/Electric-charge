@@ -126,6 +126,7 @@ fun Application.module(testing: Boolean = false) {
             try {
                 val appointment = call.receive<Appointment>()
                 dao.addAppointment(appointment)
+                call.respond(mapOf("success" to true))
             } catch (e: InvalidPowerUnitIDException) {
                 call.respond(mapOf("success" to false, "error" to e.message))
             } catch (e: PowerUnitFullException) {
