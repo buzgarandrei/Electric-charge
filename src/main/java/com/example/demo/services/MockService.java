@@ -1,5 +1,5 @@
 package com.example.demo.services;
 
 public interface MockService {
-    void run() ;
+    void populate();
 }

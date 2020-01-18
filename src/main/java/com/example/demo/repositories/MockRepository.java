@@ -1,5 +1,5 @@
 package com.example.demo.repositories;
 
 public interface MockRepository {
-    void populateDB();
+    void populate();
 }

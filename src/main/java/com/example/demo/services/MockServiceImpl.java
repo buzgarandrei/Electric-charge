@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 public class MockServiceImpl implements MockService {
 
     @Autowired
-    private MockRepository mockRepository;
+    MockRepository mockRepository;
 
-    @Override
-    public void run() {
-
-        mockRepository.populateDB();
+    public void populate() {
+        mockRepository.populate();
     }
 }
