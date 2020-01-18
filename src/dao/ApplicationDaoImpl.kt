@@ -25,7 +25,6 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }
 
         AppointmentEntity.insert {
-            it[id] = appointment.id
             it[userId] = appointment.userId
             it[powerUnitId] = appointment.powerUnitId
             it[startTime] = DateTime(appointment.startTime)
@@ -36,7 +35,6 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
 
     override fun addCar(car: Car) = transaction(db) {
         CarEntity.insert {
-            it[id] = car.id
             it[year] = car.year
             it[brand] = car.brand
             it[model] = car.model
@@ -52,7 +50,6 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
 
     override fun addPowerUnit(powerUnit: PowerUnit) = transaction(db) {
         PowerUnitEntity.insert {
-            it[id] = powerUnit.id
             it[stationId] = powerUnit.stationId
             it[powerKw] = powerUnit.powerKw
             it[priceKwh] = powerUnit.priceKwh
@@ -64,7 +61,6 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
 
     override fun addStation(station: Station) = transaction(db) {
         StationEntity.insert {
-            it[id] = station.id
             it[name] = station.name
             it[address] = station.address
             it[photoUrl] = station.photoUrl
@@ -104,7 +100,6 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
 
     override fun addUser(user: User) = transaction(db) {
         UserEntity.insert {
-            it[id] = user.id
             it[name] = user.name
             it[email] = user.email
             it[password] = user.password
@@ -244,7 +239,6 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
 
     override fun updatePowerUnit(id: Int, powerUnit: PowerUnit) = transaction(db) {
         PowerUnitEntity.update({ PowerUnitEntity.id eq id }) {
-            it[PowerUnitEntity.id] = powerUnit.id
             it[stationId] = powerUnit.stationId
             it[powerKw] = powerUnit.powerKw
             it[priceKwh] = powerUnit.priceKwh
