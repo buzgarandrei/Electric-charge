@@ -6,5 +6,5 @@ data class PowerUnit(
     val powerKw: Int,
     val priceKwh: Double,
     val totalNrOutlets: Int,
-    val busyNrOutlets: Int
+    var busyNrOutlets: Int
 )

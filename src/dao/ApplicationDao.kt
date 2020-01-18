@@ -24,10 +24,13 @@ interface ApplicationDao : Closeable {
     fun deleteAppointmentById(id: Int)
 
     fun getAllPowerUnits(): List<PowerUnit>
+    fun getPowerUnitById(id: Int): PowerUnit?
     fun getPowerUnitsOfStation(stationId: Int): List<PowerUnitOfStationResponse>
+    fun updatePowerUnit(id: Int, powerUnit: PowerUnit)
     //fun deletePowerUnitById(id: Int)
 
     fun getAllUsers(): List<User>
+    fun getUserByEmail(email: String): User?
     //fun deleteUserById(id: Int)
 
     fun getAllStations(): List<Station>

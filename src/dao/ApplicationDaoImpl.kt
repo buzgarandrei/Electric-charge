@@ -1,5 +1,7 @@
 package com.diver6ty.chargetapbackend.dao
 
+import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
+import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
 import com.diver6ty.chargetapbackend.model.*
 import com.diver6ty.chargetapbackend.model.responses.CarOfUserResponse
 import com.diver6ty.chargetapbackend.model.responses.PowerUnitOfStationResponse
@@ -14,6 +16,14 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
     }
 
     override fun addAppointment(appointment: Appointment) = transaction(db) {
+        val powerUnit = getPowerUnitById(appointment.powerUnitId) ?: throw InvalidPowerUnitIDException()
+
+        if (powerUnit.busyNrOutlets >= powerUnit.totalNrOutlets) {
+            throw PowerUnitFullException()
+        } else {
+            updatePowerUnit(appointment.powerUnitId, powerUnit.copy().apply { busyNrOutlets += 1 })
+        }
+
         AppointmentEntity.insert {
             it[id] = appointment.id
             it[userId] = appointment.userId
@@ -78,6 +88,20 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }
     }
 
+    override fun getUserByEmail(email: String): User? = transaction(db) {
+        UserEntity.select {
+            UserEntity.email eq email
+        }.map {
+            User(
+                it[UserEntity.id],
+                it[UserEntity.name],
+                it[UserEntity.email],
+                it[UserEntity.password],
+                it[UserEntity.profilePictureUrl]
+            )
+        }.singleOrNull()
+    }
+
     override fun addUser(user: User) = transaction(db) {
         UserEntity.insert {
             it[id] = user.id
@@ -137,8 +161,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
     }
 
     override fun getAppointmentsOfPowerUnit(powerUnitId: Int): List<Appointment> = transaction(db) {
-        AppointmentEntity.select {
-            AppointmentEntity.powerUnitId eq powerUnitId
+        (AppointmentEntity).select {
+            (AppointmentEntity.powerUnitId eq powerUnitId)
         }.map {
             Appointment(
                 it[AppointmentEntity.id],
@@ -201,6 +225,33 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[PowerUnitEntity.busyNrOutlets]
             )
         }
+    }
+
+    override fun getPowerUnitById(id: Int): PowerUnit? = transaction(db) {
+        PowerUnitEntity.select {
+            PowerUnitEntity.id eq id
+        }.map {
+            PowerUnit(
+                it[PowerUnitEntity.id],
+                it[PowerUnitEntity.stationId],
+                it[PowerUnitEntity.powerKw],
+                it[PowerUnitEntity.priceKwh],
+                it[PowerUnitEntity.totalNrOutlets],
+                it[PowerUnitEntity.busyNrOutlets]
+            )
+        }.singleOrNull()
+    }
+
+    override fun updatePowerUnit(id: Int, powerUnit: PowerUnit) = transaction(db) {
+        PowerUnitEntity.update({ PowerUnitEntity.id eq id }) {
+            it[PowerUnitEntity.id] = powerUnit.id
+            it[stationId] = powerUnit.stationId
+            it[powerKw] = powerUnit.powerKw
+            it[priceKwh] = powerUnit.priceKwh
+            it[totalNrOutlets] = powerUnit.totalNrOutlets
+            it[busyNrOutlets] = powerUnit.busyNrOutlets
+        }
+        Unit
     }
 
     override fun getPowerUnitsOfStation(stationId: Int): List<PowerUnitOfStationResponse> = transaction(db) {

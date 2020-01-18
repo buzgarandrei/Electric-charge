@@ -1,6 +1,10 @@
 package com.diver6ty.chargetapbackend
 
 import com.diver6ty.chargetapbackend.dao.ApplicationDaoImpl
+import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
+import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
+import com.diver6ty.chargetapbackend.model.Appointment
+import com.diver6ty.chargetapbackend.model.PowerUnit
 import com.diver6ty.chargetapbackend.model.repository.Repository
 import io.ktor.application.*
 import io.ktor.response.*
@@ -10,6 +14,7 @@ import org.slf4j.event.*
 import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.gson.*
+import io.ktor.request.ContentTransformationException
 import org.jetbrains.exposed.sql.Database
 
 private val dao = ApplicationDaoImpl(Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver"))
@@ -114,6 +119,19 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("success" to false, "error" to "Invalid User ID"))
             } else {
                 call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfUser(userId)))
+            }
+        }
+
+        post("/appointments") {
+            try {
+                val appointment = call.receive<Appointment>()
+                dao.addAppointment(appointment)
+            } catch (e: InvalidPowerUnitIDException) {
+                call.respond(mapOf("success" to false, "error" to e.message))
+            } catch (e: PowerUnitFullException) {
+                call.respond(mapOf("success" to false, "error" to e.message))
+            } catch (e: Exception) {
+                call.respond(mapOf("success" to false, "error" to "Invalid Appointment"))
             }
         }
     }
