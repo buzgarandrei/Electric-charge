@@ -130,9 +130,10 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }
     }
 
-    override fun getCarsOfUser(userId: Int): List<CarOfUserResponse> = transaction(db) {
-        CarEntity.select {
-            CarEntity.userId eq userId
+    override fun getCarsOfUser(email: String): List<CarOfUserResponse> = transaction(db) {
+        (CarEntity innerJoin UserEntity).select {
+            (CarEntity.userId eq UserEntity.id) and
+                    (UserEntity.email eq email)
         }.map {
             CarOfUserResponse(
                 it[CarEntity.id],
@@ -174,11 +175,12 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }
     }
 
-    override fun getAppointmentsOfUser(userId: Int): List<UserAppointmentResponse> = transaction(db) {
-        (AppointmentEntity innerJoin PowerUnitEntity innerJoin StationEntity).select {
+    override fun getAppointmentsOfUser(email: String): List<UserAppointmentResponse> = transaction(db) {
+        (UserEntity innerJoin AppointmentEntity innerJoin PowerUnitEntity innerJoin StationEntity).select {
             (AppointmentEntity.powerUnitId eq PowerUnitEntity.id) and
                     (PowerUnitEntity.stationId eq StationEntity.id) and
-                    (AppointmentEntity.userId eq userId)
+                    (AppointmentEntity.userId eq UserEntity.id) and
+                    (UserEntity.email eq email)
         }.map {
             UserAppointmentResponse(
                 it[AppointmentEntity.id],

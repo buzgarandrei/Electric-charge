@@ -16,11 +16,11 @@ interface ApplicationDao : Closeable {
     fun addUser(user: User)
 
     fun getAllCars(): List<Car>
-    fun getCarsOfUser(userId: Int): List<CarOfUserResponse>
+    fun getCarsOfUser(email: String): List<CarOfUserResponse>
 
     fun getAllAppointments(): List<Appointment>
     fun getAppointmentsOfPowerUnit(powerUnitId: Int): List<Appointment>
-    fun getAppointmentsOfUser(userId: Int): List<UserAppointmentResponse>
+    fun getAppointmentsOfUser(email: String): List<UserAppointmentResponse>
     fun deleteAppointmentById(id: Int)
 
     fun getAllPowerUnits(): List<PowerUnit>
