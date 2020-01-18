@@ -143,7 +143,7 @@ object Repository {
         ),
         PowerUnit(
             3,
-            2,
+            3,
             50,
             1.99,
             4,
@@ -194,7 +194,7 @@ object Repository {
         Appointment(
             2,
             1,
-            2,
+            4,
             DateTime.now().minusHours(3).toString(),
             DateTime.now().minusHours(3).plusMinutes(30).toString()
         ),

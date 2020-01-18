@@ -107,6 +107,15 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfPowerUnit(powerUnitId)))
             }
         }
+
+        get("/appointments/user/{userId}") {
+            val userId = call.parameters["userId"]?.toIntOrNull()
+            if (userId == null) {
+                call.respond(mapOf("success" to false, "error" to "Invalid User ID"))
+            } else {
+                call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfUser(userId)))
+            }
+        }
     }
 }
 
