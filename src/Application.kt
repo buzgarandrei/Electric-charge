@@ -98,6 +98,15 @@ fun Application.module(testing: Boolean = false) {
         get("/appointments") {
             call.respond(mapOf("success" to true, "data" to dao.getAllAppointments()))
         }
+
+        get("appointments/{powerUnitId}") {
+            val powerUnitId = call.parameters["powerUnitId"]?.toIntOrNull()
+            if (powerUnitId == null) {
+                call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
+            } else {
+                call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfPowerUnit(powerUnitId)))
+            }
+        }
     }
 }
 
