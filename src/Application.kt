@@ -56,7 +56,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
 
-    resetDatabase()
+    dao.init()
 
     install(CallLogging) {
         level = Level.INFO
@@ -355,6 +355,16 @@ fun Application.module(testing: Boolean = false) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Email"))
                     } else {
                         call.respond(mapOf("success" to true, "data" to dao.getUserByEmail(email)))
+                    }
+                }
+
+                post {
+                    try {
+                        val user = call.receive<User>()
+                        dao.addUser(user)
+                        call.respond(mapOf("success" to true))
+                    } catch (e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid User: ${e.message}"))
                     }
                 }
 
