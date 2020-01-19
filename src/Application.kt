@@ -35,9 +35,11 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.event.Level
 
-// local: "jdbc:mysql://root:toor@localhost:3306/chargetap-local-db"
-// remote: "jdbc:mysql://f62hpl3n4csbnrgj:y2fu6ma9xvvhfls3@a5s42n4idx9husyc.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/zuwzl5lzvl83usz0"
-private val dao = ApplicationDaoImpl(Database.connect(System.getenv("JDBC_DATABASE_URL"), driver = "com.mysql.cj.jdbc.Driver"))
+// local: "mysql://root:toor@localhost:3306/chargetap-local-db"
+// remote: "mysql://f62hpl3n4csbnrgj:y2fu6ma9xvvhfls3@a5s42n4idx9husyc.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/zuwzl5lzvl83usz0"
+
+val url = "jdbc:${System.getenv("JAWSDB_URL")}"
+private val dao = ApplicationDaoImpl(Database.connect(url, driver = "com.mysql.cj.jdbc.Driver"))
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -195,7 +197,7 @@ fun Application.module(testing: Boolean = false) {
             }
         }
 
-        post("/reset") {
+        post("/init") {
             try {
                 transaction {
                     SchemaUtils.drop(AppointmentEntity, CarEntity, PowerUnitEntity, StationEntity, UserEntity)
