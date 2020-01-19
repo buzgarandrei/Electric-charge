@@ -5,8 +5,7 @@ import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
 import com.diver6ty.chargetapbackend.exceptions.InvalidUserException
 import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
 import com.diver6ty.chargetapbackend.exceptions.UserWithEmailAlreadyExistsException
-import com.diver6ty.chargetapbackend.model.Appointment
-import com.diver6ty.chargetapbackend.model.User
+import com.diver6ty.chargetapbackend.model.*
 import com.diver6ty.chargetapbackend.model.jwt.SimpleJWT
 import com.diver6ty.chargetapbackend.model.repository.Repository
 import com.diver6ty.chargetapbackend.model.requests.LoginRequest
@@ -27,9 +26,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.request.path
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.routing
+import io.ktor.routing.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -41,13 +38,25 @@ import org.slf4j.event.Level
 val url = "jdbc:${System.getenv("JAWSDB_URL")}"
 private val dao = ApplicationDaoImpl(Database.connect(url, driver = "com.mysql.cj.jdbc.Driver"))
 
+private fun resetDatabase() {
+    transaction {
+        SchemaUtils.drop(AppointmentEntity, CarEntity, PowerUnitEntity, StationEntity, UserEntity)
+        dao.init()
+    }
+    Repository.mockStations.forEach { dao.addStation(it) }
+    Repository.mockPowerUnits.forEach { dao.addPowerUnit(it) }
+    Repository.mockUsers.forEach { dao.addUser(it) }
+    Repository.mockCars.forEach { dao.addCar(it) }
+    Repository.mockAppointments.forEach { dao.addAppointment(it) }
+}
+
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
 
-    dao.init()
+    resetDatabase()
 
     install(CallLogging) {
         level = Level.INFO
@@ -84,85 +93,259 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         authenticate {
-            get("/stations/all") {
-                call.respond(mapOf("success" to true, "data" to dao.getAllStations()))
-            }
-
-            get("/stations") {
-                val keyword = call.request.queryParameters["keyword"]
-                if (keyword.isNullOrBlank()) {
-                    call.respond(mapOf("success" to false, "error" to "Invalid Search Keyword"))
-                } else {
-                    call.respond(mapOf("success" to true, "data" to dao.getStationsByKeyword(keyword)))
+            route("/appointments") {
+                get("/all") {
+                    call.respond(mapOf("success" to true, "data" to dao.getAllAppointments()))
                 }
-                call.respond(mapOf("success" to true, "data" to dao.getAllStations()))
-            }
 
-            get("/powerUnits/all") {
-                call.respond(mapOf("success" to true, "data" to dao.getAllPowerUnits()))
-            }
+                get("/me") {
+                    try {
+                        val principal = call.principal<UserIdPrincipal>() ?: error("Invalid Session")
+                        call.respond(mapOf("success" to true, "data" to dao.getAppointmentsByEmail(principal.name)))
+                    } catch (e: InvalidUserException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    } catch (e: IllegalStateException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    }
+                }
 
-            get("/powerUnits") {
-                val stationId = call.request.queryParameters["stationId"]?.toIntOrNull()
-                if (stationId == null) {
-                    call.respond(mapOf("success" to false, "error" to "Invalid Station ID"))
-                } else {
-                    call.respond(mapOf("success" to true, "data" to dao.getPowerUnitsOfStation(stationId)))
+                get {
+                    val email = call.request.queryParameters["email"]
+                    if (email.isNullOrBlank()) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Email"))
+                    } else {
+                        call.respond(mapOf("success" to true, "data" to dao.getAppointmentsByEmail(email)))
+                    }
+                }
+
+                get {
+                    val powerUnitId = call.request.queryParameters["powerUnitId"]?.toIntOrNull()
+                    if (powerUnitId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
+                    } else {
+                        call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfPowerUnit(powerUnitId)))
+                    }
+                }
+
+                put {
+                    try {
+                        val appointment = call.receive<Appointment>()
+                        dao.updateAppointment(appointment)
+                        call.respond(mapOf("success" to true))
+                    } catch (e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Appointment: ${e.message}"))
+                    }
+                }
+
+                post {
+                    try {
+                        val appointment = call.receive<Appointment>()
+                        dao.addAppointment(appointment)
+                        call.respond(mapOf("success" to true))
+                    } catch (e: InvalidPowerUnitIDException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    } catch (e: PowerUnitFullException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    } catch (e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Appointment: ${e.message}"))
+                    }
+                }
+
+                delete("/{appointmentId}") {
+                    val appointmentId = call.parameters["appointmentId"]?.toIntOrNull()
+                    if (appointmentId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Appointment ID"))
+                    } else {
+                        dao.deleteAppointmentById(appointmentId)
+                        call.respond(mapOf("success" to true))
+                    }
                 }
             }
 
-            get("/cars/all") {
-                call.respond(mapOf("success" to true, "data" to dao.getAllCars()))
-            }
+            route("/stations") {
+                get("/all") {
+                    call.respond(mapOf("success" to true, "data" to dao.getAllStations()))
+                }
 
-            get("/cars") {
-                try {
-                    val principal = call.principal<UserIdPrincipal>() ?: error("Invalid Session")
-                    call.respond(mapOf("success" to true, "data" to dao.getCarsOfUser(principal.name)))
-                } catch (e: IllegalStateException) {
-                    call.respond(mapOf("success" to false, "error" to e.message))
+                get {
+                    val keyword = call.request.queryParameters["keyword"]
+                    if (keyword.isNullOrBlank()) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Search Keyword"))
+                    } else {
+                        call.respond(mapOf("success" to true, "data" to dao.getStationsByKeyword(keyword)))
+                    }
+                }
+
+                post {
+                    try {
+                        val station = call.receive<Station>()
+                        dao.addStation(station)
+                        call.respond(mapOf("success" to true))
+                    } catch(e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Station: ${e.message}"))
+                    }
+                }
+
+                put {
+                    try {
+                        val station = call.receive<Station>()
+                        dao.updateStation(station)
+                        call.respond(mapOf("success" to true))
+                    } catch(e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Station: ${e.message}"))
+                    }
+                }
+
+                delete("/{stationId}") {
+                    val stationId = call.parameters["stationId"]?.toIntOrNull()
+                    if (stationId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Station ID"))
+                    } else {
+                        dao.deleteStationById(stationId)
+                        call.respond(mapOf("success" to true))
+                    }
                 }
             }
 
-            get("/users/all") {
-                call.respond(mapOf("success" to true, "data" to dao.getAllUsers()))
-            }
+            route("/powerUnits") {
+                get("/all") {
+                    call.respond(mapOf("success" to true, "data" to dao.getAllPowerUnits()))
+                }
 
-            get("/appointments/all") {
-                call.respond(mapOf("success" to true, "data" to dao.getAllAppointments()))
-            }
+                get {
+                    val powerUnitId = call.request.queryParameters["powerUnitId"]?.toIntOrNull()
+                    if (powerUnitId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
+                    } else {
+                        call.respond(mapOf("success" to true, "data" to dao.getPowerUnitById(powerUnitId)))
+                    }
+                }
 
-            get("/appointments") {
-                val powerUnitId = call.request.queryParameters["powerUnitId"]?.toIntOrNull()
-                if (powerUnitId == null) {
-                    call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
-                } else {
-                    call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfPowerUnit(powerUnitId)))
+                get {
+                    val stationId = call.request.queryParameters["stationId"]?.toIntOrNull()
+                    if (stationId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Station ID"))
+                    } else {
+                        call.respond(mapOf("success" to true, "data" to dao.getPowerUnitsOfStation(stationId)))
+                    }
+                }
+
+                post {
+                    try {
+                        val powerUnit = call.receive<PowerUnit>()
+                        dao.addPowerUnit(powerUnit)
+                        call.respond(mapOf("success" to true))
+                    } catch(e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Power Unit: ${e.message}"))
+                    }
+                }
+
+                put {
+                    try {
+                        val powerUnit = call.receive<PowerUnit>()
+                        dao.updatePowerUnit(powerUnit)
+                        call.respond(mapOf("success" to true))
+                    } catch(e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Power Unit: ${e.message}"))
+                    }
+                }
+
+                delete("/{powerUnitId}") {
+                    val powerUnitId = call.parameters["powerUnitId"]?.toIntOrNull()
+                    if (powerUnitId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
+                    } else {
+                        dao.deletePowerUnitById(powerUnitId)
+                        call.respond(mapOf("success" to true))
+                    }
                 }
             }
 
-            get("/myAppointments") {
-                try {
-                    val principal = call.principal<UserIdPrincipal>() ?: error("Invalid Session")
-                    call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfUser(principal.name)))
-                } catch(e: InvalidUserException) {
-                    call.respond(mapOf("success" to false, "error" to e.message))
-                } catch (e: IllegalStateException) {
-                    call.respond(mapOf("success" to false, "error" to e.message))
+            route("/cars") {
+                get("/all") {
+                    call.respond(mapOf("success" to true, "data" to dao.getAllCars()))
+                }
+
+                get("/me") {
+                    try {
+                        val principal = call.principal<UserIdPrincipal>() ?: error("Invalid Session")
+                        call.respond(mapOf("success" to true, "data" to dao.getCarsByEmail(principal.name)))
+                    } catch (e: IllegalStateException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    }
+                }
+
+                get {
+                    val email = call.request.queryParameters["email"]
+                    if (email.isNullOrBlank()) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Email"))
+                    } else {
+                        call.respond(mapOf("success" to true, "data" to dao.getCarsByEmail(email)))
+                    }
+                }
+
+                post {
+                    try {
+                        val car = call.receive<Car>()
+                        dao.addCar(car)
+                        call.respond(mapOf("success" to true))
+                    } catch(e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Car: ${e.message}"))
+                    }
+                }
+
+                put {
+                    try {
+                        val car = call.receive<Car>()
+                        dao.updateCar(car)
+                        call.respond(mapOf("success" to true))
+                    } catch(e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Car: ${e.message}"))
+                    }
+                }
+
+                delete("/{carId}") {
+                    val carId = call.parameters["carId"]?.toIntOrNull()
+                    if (carId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Car ID"))
+                    } else {
+                        dao.deleteCarById(carId)
+                        call.respond(mapOf("success" to true))
+                    }
                 }
             }
 
-            post("/appointments") {
-                try {
-                    val appointment = call.receive<Appointment>()
-                    dao.addAppointment(appointment)
-                    call.respond(mapOf("success" to true))
-                } catch (e: InvalidPowerUnitIDException) {
-                    call.respond(mapOf("success" to false, "error" to e.message))
-                } catch (e: PowerUnitFullException) {
-                    call.respond(mapOf("success" to false, "error" to e.message))
-                } catch (e: Exception) {
-                    call.respond(mapOf("success" to false, "error" to "Invalid Appointment: ${e.message}"))
+            route("/users") {
+                get("/all") {
+                    call.respond(mapOf("success" to true, "data" to dao.getAllUsers()))
+                }
+
+                get("/me") {
+                    try {
+                        val principal = call.principal<UserIdPrincipal>() ?: error("Invalid Session")
+                        call.respond(mapOf("success" to true, "data" to dao.getUserByEmail(principal.name)))
+                    } catch (e: IllegalStateException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    }
+                }
+
+                get {
+                    val email = call.request.queryParameters["email"]
+                    if (email.isNullOrBlank()) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Email"))
+                    } else {
+                        call.respond(mapOf("success" to true, "data" to dao.getUserByEmail(email)))
+                    }
+                }
+
+                delete("/{userId}") {
+                    val userId = call.parameters["userId"]?.toIntOrNull()
+                    if (userId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid User ID"))
+                    } else {
+                        dao.deleteUserById(userId)
+                        call.respond(mapOf("success" to true))
+                    }
                 }
             }
         }
@@ -197,20 +380,12 @@ fun Application.module(testing: Boolean = false) {
             }
         }
 
-        post("/init") {
+        post("/reset") {
             try {
-                transaction {
-                    SchemaUtils.drop(AppointmentEntity, CarEntity, PowerUnitEntity, StationEntity, UserEntity)
-                    dao.init()
-                }
-                Repository.mockStations.forEach { dao.addStation(it) }
-                Repository.mockPowerUnits.forEach { dao.addPowerUnit(it) }
-                Repository.mockUsers.forEach { dao.addUser(it) }
-                Repository.mockCars.forEach { dao.addCar(it) }
-                Repository.mockAppointments.forEach { dao.addAppointment(it) }
+                resetDatabase()
                 call.respond(mapOf("success" to true))
-            } catch(e: Exception) {
-                call.respond(mapOf("success" to false, "error" to "Database Reset Failed: ${e.message}"))
+            } catch (e: Exception) {
+                call.respond(mapOf("success" to false, "error" to "Database reset Failed: ${e.message}"))
             }
         }
     }

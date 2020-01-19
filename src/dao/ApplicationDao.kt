@@ -9,28 +9,35 @@ import kotlinx.io.core.Closeable
 interface ApplicationDao : Closeable {
     fun init()
 
-    fun addAppointment(appointment: Appointment)
     fun addCar(car: Car)
-    fun addPowerUnit(powerUnit: PowerUnit)
-    fun addStation(station: Station)
-    fun addUser(user: User)
-
     fun getAllCars(): List<Car>
-    fun getCarsOfUser(email: String): List<CarOfUserResponse>
+    fun getCarsByEmail(email: String): List<CarOfUserResponse>
+    fun updateCar(car: Car)
+    fun deleteCarById(id: Int)
 
+    fun addAppointment(appointment: Appointment)
     fun getAllAppointments(): List<Appointment>
     fun getAppointmentsOfPowerUnit(powerUnitId: Int): List<Appointment>
-    fun getAppointmentsOfUser(email: String): List<UserAppointmentResponse>
+    fun getAppointmentsByEmail(email: String): List<UserAppointmentResponse>
+    fun updateAppointment(appointment: Appointment)
     fun deleteAppointmentById(id: Int)
 
+    fun addPowerUnit(powerUnit: PowerUnit)
     fun getAllPowerUnits(): List<PowerUnit>
     fun getPowerUnitById(id: Int): PowerUnit?
     fun getPowerUnitsOfStation(stationId: Int): List<PowerUnitOfStationResponse>
-    fun updatePowerUnit(id: Int, powerUnit: PowerUnit)
+    fun updatePowerUnit(powerUnit: PowerUnit)
+    fun deletePowerUnitById(id: Int)
 
+    fun addUser(user: User)
     fun getAllUsers(): List<User>
     fun getUserByEmail(email: String): User?
+    fun updateUser(user: User)
+    fun deleteUserById(id: Int)
 
+    fun addStation(station: Station)
     fun getAllStations(): List<Station>
     fun getStationsByKeyword(keyword: String): List<Station>
+    fun updateStation(station: Station)
+    fun deleteStationById(id: Int)
 }

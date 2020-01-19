@@ -12,27 +12,10 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 
+@Suppress("DuplicatedCode")
 class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
     override fun init() = transaction(db) {
         SchemaUtils.create(StationEntity, PowerUnitEntity, AppointmentEntity, CarEntity, UserEntity)
-    }
-
-    override fun addAppointment(appointment: Appointment) = transaction(db) {
-        val powerUnit = getPowerUnitById(appointment.powerUnitId) ?: throw InvalidPowerUnitIDException()
-
-        if (powerUnit.busyNrOutlets >= powerUnit.totalNrOutlets) {
-            throw PowerUnitFullException()
-        } else {
-            updatePowerUnit(appointment.powerUnitId, powerUnit.copy().apply { busyNrOutlets += 1 })
-        }
-
-        AppointmentEntity.insert {
-            it[userId] = appointment.userId
-            it[powerUnitId] = appointment.powerUnitId
-            it[startTime] = DateTime(appointment.startTime)
-            it[endTime] = DateTime(appointment.endTime)
-        }
-        Unit
     }
 
     override fun addCar(car: Car) = transaction(db) {
@@ -46,70 +29,6 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
             it[autonomyKm] = car.autonomyKm
             it[photoUrl] = car.photoUrl
             it[userId] = car.userId
-        }
-        Unit
-    }
-
-    override fun addPowerUnit(powerUnit: PowerUnit) = transaction(db) {
-        PowerUnitEntity.insert {
-            it[stationId] = powerUnit.stationId
-            it[powerKw] = powerUnit.powerKw
-            it[priceKwh] = powerUnit.priceKwh
-            it[totalNrOutlets] = powerUnit.totalNrOutlets
-            it[busyNrOutlets] = powerUnit.busyNrOutlets
-        }
-        Unit
-    }
-
-    override fun addStation(station: Station) = transaction(db) {
-        StationEntity.insert {
-            it[name] = station.name
-            it[address] = station.address
-            it[photoUrl] = station.photoUrl
-            it[latitude] = station.latitude
-            it[longitude] = station.longitude
-            it[rating] = station.rating
-            it[nrReviews] = station.nrReviews
-        }
-        Unit
-    }
-
-    override fun getAllUsers(): List<User> = transaction(db) {
-        UserEntity.selectAll().map {
-            User(
-                it[UserEntity.id],
-                it[UserEntity.name],
-                it[UserEntity.email],
-                it[UserEntity.password],
-                it[UserEntity.profilePictureUrl]
-            )
-        }
-    }
-
-    override fun getUserByEmail(email: String): User? = transaction(db) {
-        UserEntity.select {
-            UserEntity.email eq email
-        }.map {
-            User(
-                it[UserEntity.id],
-                it[UserEntity.name],
-                it[UserEntity.email],
-                it[UserEntity.password],
-                it[UserEntity.profilePictureUrl]
-            )
-        }.singleOrNull()
-    }
-
-    override fun addUser(user: User) = transaction(db) {
-        if (getUserByEmail(user.email) != null) {
-            throw UserWithEmailAlreadyExistsException()
-        }
-
-        UserEntity.insert {
-            it[name] = user.name
-            it[email] = user.email
-            it[password] = user.password
-            it[profilePictureUrl] = user.profilePictureUrl
         }
         Unit
     }
@@ -131,7 +50,7 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }
     }
 
-    override fun getCarsOfUser(email: String): List<CarOfUserResponse> = transaction(db) {
+    override fun getCarsByEmail(email: String): List<CarOfUserResponse> = transaction(db) {
         (CarEntity innerJoin UserEntity).select {
             (CarEntity.userId eq UserEntity.id) and
                     (UserEntity.email eq email)
@@ -148,6 +67,44 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[CarEntity.photoUrl]
             )
         }
+    }
+
+    override fun updateCar(car: Car) = transaction(db) {
+        CarEntity.update({ CarEntity.id eq car.id }) {
+            it[year] = car.year
+            it[brand] = car.brand
+            it[model] = car.model
+            it[extraInfo] = car.extraInfo
+            it[plate] = car.plate
+            it[powerKwh] = car.powerKwh
+            it[autonomyKm] = car.autonomyKm
+            it[photoUrl] = car.photoUrl
+            it[userId] = car.userId
+        }
+        Unit
+    }
+
+    override fun deleteCarById(id: Int) = transaction(db) {
+        CarEntity.deleteWhere { CarEntity.id eq id }
+        Unit
+    }
+
+    override fun addAppointment(appointment: Appointment) = transaction(db) {
+        val powerUnit = getPowerUnitById(appointment.powerUnitId) ?: throw InvalidPowerUnitIDException()
+
+        if (powerUnit.busyNrOutlets >= powerUnit.totalNrOutlets) {
+            throw PowerUnitFullException()
+        } else {
+            updatePowerUnit(powerUnit.copy().apply { busyNrOutlets += 1 })
+        }
+
+        AppointmentEntity.insert {
+            it[userId] = appointment.userId
+            it[powerUnitId] = appointment.powerUnitId
+            it[startTime] = DateTime(appointment.startTime)
+            it[endTime] = DateTime(appointment.endTime)
+        }
+        Unit
     }
 
     override fun getAllAppointments(): List<Appointment> = transaction(db) {
@@ -176,7 +133,7 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }
     }
 
-    override fun getAppointmentsOfUser(email: String): List<UserAppointmentResponse> = transaction(db) {
+    override fun getAppointmentsByEmail(email: String): List<UserAppointmentResponse> = transaction(db) {
         val user = getUserByEmail(email) ?: throw InvalidUserException()
 
         (AppointmentEntity innerJoin PowerUnitEntity innerJoin StationEntity).select {
@@ -211,9 +168,30 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }
     }
 
+    override fun updateAppointment(appointment: Appointment) = transaction(db) {
+        AppointmentEntity.update({ AppointmentEntity.id eq appointment.id }) {
+            it[userId] = appointment.userId
+            it[powerUnitId] = appointment.powerUnitId
+            it[startTime] = DateTime(appointment.startTime)
+            it[endTime] = DateTime(appointment.endTime)
+        }
+        Unit
+    }
+
     override fun deleteAppointmentById(id: Int) = transaction(db) {
         AppointmentEntity.deleteWhere {
             AppointmentEntity.id eq id
+        }
+        Unit
+    }
+
+    override fun addPowerUnit(powerUnit: PowerUnit) = transaction(db) {
+        PowerUnitEntity.insert {
+            it[stationId] = powerUnit.stationId
+            it[powerKw] = powerUnit.powerKw
+            it[priceKwh] = powerUnit.priceKwh
+            it[totalNrOutlets] = powerUnit.totalNrOutlets
+            it[busyNrOutlets] = powerUnit.busyNrOutlets
         }
         Unit
     }
@@ -246,8 +224,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }.singleOrNull()
     }
 
-    override fun updatePowerUnit(id: Int, powerUnit: PowerUnit) = transaction(db) {
-        PowerUnitEntity.update({ PowerUnitEntity.id eq id }) {
+    override fun updatePowerUnit(powerUnit: PowerUnit) = transaction(db) {
+        PowerUnitEntity.update({ PowerUnitEntity.id eq powerUnit.id }) {
             it[stationId] = powerUnit.stationId
             it[powerKw] = powerUnit.powerKw
             it[priceKwh] = powerUnit.priceKwh
@@ -269,6 +247,79 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[PowerUnitEntity.busyNrOutlets]
             )
         }
+    }
+
+    override fun deletePowerUnitById(id: Int) = transaction(db) {
+        PowerUnitEntity.deleteWhere { PowerUnitEntity.id eq id }
+        Unit
+    }
+
+    override fun addUser(user: User) = transaction(db) {
+        if (getUserByEmail(user.email) != null) {
+            throw UserWithEmailAlreadyExistsException()
+        }
+
+        UserEntity.insert {
+            it[name] = user.name
+            it[email] = user.email
+            it[password] = user.password
+            it[profilePictureUrl] = user.profilePictureUrl
+        }
+        Unit
+    }
+
+    override fun getAllUsers(): List<User> = transaction(db) {
+        UserEntity.selectAll().map {
+            User(
+                it[UserEntity.id],
+                it[UserEntity.name],
+                it[UserEntity.email],
+                it[UserEntity.password],
+                it[UserEntity.profilePictureUrl]
+            )
+        }
+    }
+
+    override fun getUserByEmail(email: String): User? = transaction(db) {
+        UserEntity.select {
+            UserEntity.email eq email
+        }.map {
+            User(
+                it[UserEntity.id],
+                it[UserEntity.name],
+                it[UserEntity.email],
+                it[UserEntity.password],
+                it[UserEntity.profilePictureUrl]
+            )
+        }.singleOrNull()
+    }
+
+    override fun updateUser(user: User) = transaction(db) {
+        UserEntity.update({ UserEntity.id eq user.id }) {
+            it[name] = user.name
+            it[email] = user.email
+            it[password] = user.password
+            it[profilePictureUrl] = user.profilePictureUrl
+        }
+        Unit
+    }
+
+    override fun deleteUserById(id: Int) = transaction(db) {
+        UserEntity.deleteWhere { UserEntity.id eq id }
+        Unit
+    }
+
+    override fun addStation(station: Station) = transaction(db) {
+        StationEntity.insert {
+            it[name] = station.name
+            it[address] = station.address
+            it[photoUrl] = station.photoUrl
+            it[latitude] = station.latitude
+            it[longitude] = station.longitude
+            it[rating] = station.rating
+            it[nrReviews] = station.nrReviews
+        }
+        Unit
     }
 
     override fun getAllStations(): List<Station> = transaction(db) {
@@ -301,6 +352,24 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[StationEntity.nrReviews]
             )
         }
+    }
+
+    override fun updateStation(station: Station) = transaction(db) {
+        StationEntity.update({ StationEntity.id eq station.id }) {
+            it[name] = station.name
+            it[address] = station.address
+            it[photoUrl] = station.photoUrl
+            it[latitude] = station.latitude
+            it[longitude] = station.longitude
+            it[rating] = station.rating
+            it[nrReviews] = station.nrReviews
+        }
+        Unit
+    }
+
+    override fun deleteStationById(id: Int) = transaction(db) {
+        StationEntity.deleteWhere { StationEntity.id eq id }
+        Unit
     }
 
     override fun close() {
