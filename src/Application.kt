@@ -160,8 +160,12 @@ fun Application.module(testing: Boolean = false) {
                     if (appointmentId == null) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Appointment ID"))
                     } else {
-                        dao.deleteAppointmentById(appointmentId)
-                        call.respond(mapOf("success" to true))
+                        try {
+                            dao.deleteAppointmentById(appointmentId)
+                            call.respond(mapOf("success" to true))
+                        } catch (e: Exception) {
+                            call.respond(mapOf("success" to false, "error" to "Invalid Appointment: ${e.message}"))
+                        }
                     }
                 }
             }
@@ -205,8 +209,12 @@ fun Application.module(testing: Boolean = false) {
                     if (stationId == null) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Station ID"))
                     } else {
-                        dao.deleteStationById(stationId)
-                        call.respond(mapOf("success" to true))
+                        try {
+                            dao.deleteStationById(stationId)
+                            call.respond(mapOf("success" to true))
+                        } catch (e: Exception) {
+                            call.respond(mapOf("success" to false, "error" to "Invalid Station: ${e.message}"))
+                        }
                     }
                 }
             }
@@ -259,8 +267,12 @@ fun Application.module(testing: Boolean = false) {
                     if (powerUnitId == null) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
                     } else {
-                        dao.deletePowerUnitById(powerUnitId)
-                        call.respond(mapOf("success" to true))
+                        try {
+                            dao.deletePowerUnitById(powerUnitId)
+                            call.respond(mapOf("success" to true))
+                        } catch (e: Exception) {
+                            call.respond(mapOf("success" to false, "error" to "Invalid Power Unit: ${e.message}"))
+                        }
                     }
                 }
             }
@@ -313,8 +325,12 @@ fun Application.module(testing: Boolean = false) {
                     if (carId == null) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Car ID"))
                     } else {
-                        dao.deleteCarById(carId)
-                        call.respond(mapOf("success" to true))
+                        try {
+                            dao.deleteCarById(carId)
+                            call.respond(mapOf("success" to true))
+                        } catch (e: Exception) {
+                            call.respond(mapOf("success" to false, "error" to "Invalid Car: ${e.message}"))
+                        }
                     }
                 }
             }
@@ -357,8 +373,12 @@ fun Application.module(testing: Boolean = false) {
                     if (userId == null) {
                         call.respond(mapOf("success" to false, "error" to "Invalid User ID"))
                     } else {
-                        dao.deleteUserById(userId)
-                        call.respond(mapOf("success" to true))
+                        try {
+                            dao.deleteUserById(userId)
+                            call.respond(mapOf("success" to true))
+                        } catch (e: Exception) {
+                            call.respond(mapOf("success" to false, "error" to "Invalid User: ${e.message}"))
+                        }
                     }
                 }
             }
