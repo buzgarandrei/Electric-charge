@@ -366,7 +366,7 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
     override fun getAllStations(): List<StationAvailableResponse> = transaction(db) {
         StationEntity.selectAll().map {
             val powerUnits = getPowerUnitsOfStation(it[StationEntity.id])
-            val available = powerUnits.any { powerUnit -> powerUnit.busyNrOutlets < powerUnit.totalNrOutlets }
+            val availablePowerUnits = powerUnits.count { powerUnit -> powerUnit.busyNrOutlets < powerUnit.totalNrOutlets }
 
             StationAvailableResponse(
                 it[StationEntity.id],
@@ -377,7 +377,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[StationEntity.longitude],
                 it[StationEntity.rating],
                 it[StationEntity.nrReviews],
-                available
+                availablePowerUnits,
+                powerUnits.size
             )
         }
     }
@@ -387,7 +388,7 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
             StationEntity.address.lowerCase() like "%${keyword.toLowerCase()}%"
         }.map {
             val powerUnits = getPowerUnitsOfStation(it[StationEntity.id])
-            val available = powerUnits.any { powerUnit -> powerUnit.busyNrOutlets < powerUnit.totalNrOutlets }
+            val availablePowerUnits = powerUnits.count { powerUnit -> powerUnit.busyNrOutlets < powerUnit.totalNrOutlets }
 
             StationAvailableResponse(
                 it[StationEntity.id],
@@ -398,7 +399,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[StationEntity.longitude],
                 it[StationEntity.rating],
                 it[StationEntity.nrReviews],
-                available
+                availablePowerUnits,
+                powerUnits.size
             )
         }
     }

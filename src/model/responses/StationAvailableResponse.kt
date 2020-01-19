@@ -9,5 +9,6 @@ data class StationAvailableResponse(
     val longitude: Double,
     val rating: Int,
     val nrReviews: Int,
-    val available: Boolean
+    val availablePowerUnits: Int,
+    val totalPowerUnits: Int
 )
