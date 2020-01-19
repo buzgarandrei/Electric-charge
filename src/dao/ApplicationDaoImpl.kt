@@ -207,7 +207,7 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
             updatePowerUnit(powerUnit.copy().apply { busyNrOutlets -= 1 })
 
             val startTime = DateTime(currentAppointment.startTime)
-            val endTime = DateTime(currentAppointment.endTime)
+            val endTime = DateTime(finishAppointmentRequest.endTime)
             val differenceMillis = endTime.millis - startTime.millis
             val differenceMinutes = TimeUnit.MILLISECONDS.toMinutes(differenceMillis)
 
