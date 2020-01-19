@@ -4,10 +4,7 @@ import com.example.demo.entities.StationsEntity;
 import com.example.demo.entities.enums.RoleEnum;
 import com.example.demo.request.LoginRequest;
 import com.example.demo.request.UsersRequest;
-import com.example.demo.request.specialRequests.Car2Request;
-import com.example.demo.request.specialRequests.CityRequest;
-import com.example.demo.request.specialRequests.RequestWith2IDs;
-import com.example.demo.request.specialRequests.RequestWithIdOnly;
+import com.example.demo.request.specialRequests.*;
 import com.example.demo.response.*;
 import com.example.demo.services.AuthenticationService;
 import com.example.demo.services.UsersService;
@@ -29,13 +26,12 @@ public class UsersController {
 
     /**
      * it logs the user and returns things about the user
-     * @param httpServletRequest
      * @param loginRequest
      * @return
      * @throws Exception
      */
     @PostMapping("/login")
-    public LoginResponse login(HttpServletRequest httpServletRequest, @RequestBody LoginRequest loginRequest) throws Exception {
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) throws Exception {
 
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
@@ -55,6 +51,12 @@ public class UsersController {
         else return null;
 
         return response;
+    }
+
+    @PostMapping("logout")
+    public StateResponse logout(@RequestBody LogoutRequest request) {
+
+        return authenticationService.logout(request.getToken());
     }
 
     /**
@@ -285,7 +287,7 @@ public class UsersController {
     @RequestMapping(value = "/addCarToUserList",method = RequestMethod.POST)
     public StateResponse addCarToUserList(HttpServletRequest httpServletRequest,@RequestBody Car2Request request) {
 
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, RoleEnum.ADMIN);
+        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest,null);
         if(!validated) return null;
 
         StateResponse stateResponse = new StateResponse();
@@ -305,7 +307,7 @@ public class UsersController {
     @RequestMapping(value = "/deleteCarFromUserList",method = RequestMethod.POST)
     public StateResponse deleteCarFromUserList(HttpServletRequest httpServletRequest,@RequestBody Car2Request request) {
 
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, RoleEnum.ADMIN);
+        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, null);
         if(!validated) return null;
 
         StateResponse stateResponse = new StateResponse();
@@ -325,7 +327,7 @@ public class UsersController {
     @RequestMapping(path = "/getCarListOfUser", method = RequestMethod.GET)
     public List<CarResponse> getCarListOfUser(HttpServletRequest httpServletRequest, @RequestBody RequestWithIdOnly idOnly) {
 
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, RoleEnum.ADMIN);
+        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, null);
         if(!validated) return null;
 
         List<CarResponse> carsResponseList = usersService.getCarListOfUser(idOnly);

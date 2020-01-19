@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
+import com.example.demo.response.PowerUnitsResponse;
 import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 
@@ -21,4 +22,6 @@ public interface StationsService {
     StationResponse getStationById(RequestWithIdOnly request);
 
     List<StationResponse> getStationsOfACity(CityRequest request  ) throws Exception;
+
+    List<PowerUnitsResponse> getPowerUnitsOfaStation(RequestWithIdOnly request);
 }

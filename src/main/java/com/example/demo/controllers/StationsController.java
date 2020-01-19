@@ -4,6 +4,7 @@ import com.example.demo.entities.enums.RoleEnum;
 import com.example.demo.request.StationRequest;
 import com.example.demo.request.specialRequests.CityRequest;
 import com.example.demo.request.specialRequests.RequestWithIdOnly;
+import com.example.demo.response.PowerUnitsResponse;
 import com.example.demo.response.StateResponse;
 import com.example.demo.response.StationResponse;
 import com.example.demo.services.AuthenticationService;
@@ -71,6 +72,15 @@ public class StationsController {
         if(!validated) return null;
 
         return stationsService.getStationsOfACity(request);
+    }
+
+    @RequestMapping("/getPowerUnitsOfAStation")
+    public List<PowerUnitsResponse> getPowerUnitsOfaStation(HttpServletRequest httpServletRequest, @RequestBody RequestWithIdOnly request) {
+
+        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, null);
+        if(!validated) return null;
+
+        return stationsService.getPowerUnitsOfaStation(request);
     }
 
     /**
