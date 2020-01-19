@@ -36,7 +36,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.event.Level
 
 // local: "jdbc:mysql://root:toor@localhost:3306/chargetap-local-db"
-// remote: "jdbc:mysql://y5hjwj5t7xnjh80t:zforyzfl8nj2bbc1@bbj31ma8tye2kagi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/utu0leoqdyt869br"
+// remote: "jdbc:mysql://f62hpl3n4csbnrgj:y2fu6ma9xvvhfls3@a5s42n4idx9husyc.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/zuwzl5lzvl83usz0"
 private val dao = ApplicationDaoImpl(Database.connect(System.getenv("JDBC_DATABASE_URL"), driver = "com.mysql.cj.jdbc.Driver"))
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -199,7 +199,7 @@ fun Application.module(testing: Boolean = false) {
             try {
                 transaction {
                     SchemaUtils.drop(AppointmentEntity, CarEntity, PowerUnitEntity, StationEntity, UserEntity)
-                    SchemaUtils.create(AppointmentEntity, CarEntity, PowerUnitEntity, StationEntity, UserEntity)
+                    dao.init()
                 }
                 Repository.mockStations.forEach { dao.addStation(it) }
                 Repository.mockPowerUnits.forEach { dao.addPowerUnit(it) }
