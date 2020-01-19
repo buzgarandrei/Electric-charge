@@ -132,7 +132,7 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("success" to true, "data" to dao.getAllAppointments()))
             }
 
-            get("appointments") {
+            get("/appointments") {
                 val powerUnitId = call.request.queryParameters["powerUnitId"]?.toIntOrNull()
                 if (powerUnitId == null) {
                     call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
@@ -141,7 +141,7 @@ fun Application.module(testing: Boolean = false) {
                 }
             }
 
-            get("/appointments") {
+            get("/myAppointments") {
                 try {
                     val principal = call.principal<UserIdPrincipal>() ?: error("Invalid Session")
                     call.respond(mapOf("success" to true, "data" to dao.getAppointmentsOfUser(principal.name)))
