@@ -88,8 +88,8 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("success" to true, "data" to dao.getAllStations()))
             }
 
-            get("/stations/{keyword}") {
-                val keyword = call.parameters["keyword"]
+            get("/stations") {
+                val keyword = call.request.queryParameters["keyword"]
                 if (keyword.isNullOrBlank()) {
                     call.respond(mapOf("success" to false, "error" to "Invalid Search Keyword"))
                 } else {
@@ -102,8 +102,8 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("success" to true, "data" to dao.getAllPowerUnits()))
             }
 
-            get("/powerUnits/{stationId}") {
-                val stationId = call.parameters["stationId"]?.toIntOrNull()
+            get("/powerUnits") {
+                val stationId = call.request.queryParameters["stationId"]?.toIntOrNull()
                 if (stationId == null) {
                     call.respond(mapOf("success" to false, "error" to "Invalid Station ID"))
                 } else {
@@ -132,8 +132,8 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("success" to true, "data" to dao.getAllAppointments()))
             }
 
-            get("appointments/{powerUnitId}") {
-                val powerUnitId = call.parameters["powerUnitId"]?.toIntOrNull()
+            get("appointments") {
+                val powerUnitId = call.request.queryParameters["powerUnitId"]?.toIntOrNull()
                 if (powerUnitId == null) {
                     call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
                 } else {
