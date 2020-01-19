@@ -198,6 +198,10 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         }
 
         val currentAppointment = getAppointmentById(finishAppointmentRequest.id) ?: throw AppointmentNotFoundException()
+        if (currentAppointment.endTime.isNotEmpty()) {
+            throw AppointmentAlreadyFinishedException()
+        }
+
         val powerUnit = getPowerUnitById(currentAppointment.powerUnitId) ?: throw InvalidPowerUnitIDException()
 
         if (powerUnit.busyNrOutlets <= 0) {

@@ -196,28 +196,28 @@ object Repository {
             1,
             4,
             DateTime.now().minusHours(3).toString(),
-            DateTime.now().minusHours(3).plusMinutes(30).toString()
+            ""
         ),
         Appointment(
             3,
             2,
             1,
             DateTime.now().minusHours(2).toString(),
-            DateTime.now().minusHours(2).plusMinutes(30).toString()
+            ""
         ),
         Appointment(
             4,
             3,
             3,
             DateTime.now().minusHours(5).toString(),
-            DateTime.now().minusHours(4).toString()
+            ""
         ),
         Appointment(
             5,
             2,
             3,
             DateTime.now().minusHours(6).toString(),
-            DateTime.now().minusHours(5).toString()
+            ""
         )
     )
 }

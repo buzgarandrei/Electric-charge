@@ -156,6 +156,8 @@ fun Application.module(testing: Boolean = false) {
                         call.respond(mapOf("success" to true, "data" to finishAppointmentResponse))
                     } catch(e: EndTimeInvalidException) {
                         call.respond(mapOf("success" to false, "error" to e.message))
+                    } catch(e: AppointmentAlreadyFinishedException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
                     } catch (e: AppointmentNotFoundException) {
                         call.respond(mapOf("success" to false, "error" to e.message))
                     } catch (e: InvalidPowerUnitIDException) {
