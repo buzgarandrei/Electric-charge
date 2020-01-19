@@ -79,9 +79,9 @@ public class CarsServiceImpl implements CarsService {
     }
 
     @Override
-    public void deleteCar(RequestWithIdOnly id) throws Exception {
+    public StateResponse deleteCar(RequestWithIdOnly id) throws Exception {
 
-        carsRepository.deleteCar(id);
+        return carsRepository.deleteCar(id);
     }
 
     @Override

@@ -99,19 +99,27 @@ public class CarsRepositoryImpl implements CarsRepository {
 
     @Override
     @Transactional
-    public void deleteCar(RequestWithIdOnly id) throws Exception {
+    public StateResponse deleteCar(RequestWithIdOnly id) throws Exception {
 
+        StateResponse stateResponse = new StateResponse();
         try {
             CarsEntity carsEntity = entityManager.find(CarsEntity.class,id.getId());
 
+            if(carsEntity == null) {
+                stateResponse.setSuccess(false);
+                return stateResponse;
+            }
             entityManager.remove(carsEntity);
+            stateResponse.setSuccess(true);
 
         }
         catch (Exception e) {
             e.printStackTrace();
+            stateResponse.setSuccess(false);
             System.out.println("Bad car id");
             throw e;
         }
+        return stateResponse;
     }
 
     @Override

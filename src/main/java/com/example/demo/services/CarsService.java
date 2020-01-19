@@ -14,7 +14,7 @@ public interface CarsService {
 
     public StateResponse updateCar(CarRequest carRequest) throws Exception;
 
-    public void deleteCar(RequestWithIdOnly id) throws Exception;
+    public StateResponse deleteCar(RequestWithIdOnly id) throws Exception;
 
     CarResponse getCarById(RequestWithIdOnly request);
 }

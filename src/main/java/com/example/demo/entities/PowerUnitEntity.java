@@ -23,7 +23,7 @@ public class PowerUnitEntity {
     @Column(name = "power")
     private float Power;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "id_station")
     private StationsEntity stationEntity;
 

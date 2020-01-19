@@ -48,7 +48,7 @@ public class StationsEntity {
     @Column
     private String city;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "id_company")
     private CompaniesEntity company;
 

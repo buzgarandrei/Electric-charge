@@ -21,7 +21,7 @@ public class CarsEntity {
     @Column
     private String model;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "id_company")
     private CompaniesEntity idCompany ;
 

@@ -28,7 +28,8 @@ public class CarsController {
     AuthenticationService authenticationService;
 
     /**
-     *Will turn back the whole list of cars in database
+     * Will turn back the whole list of cars in database
+     *
      * @param httpServletRequest
      * @return carsResponseList
      */
@@ -36,7 +37,7 @@ public class CarsController {
     public List<CarResponse> getCarsList(HttpServletRequest httpServletRequest) {
 
         boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, null);
-        if(!validated) return null;
+        if (!validated) return null;
 
         List<CarResponse> carResponseList = carsService.findAll();
         return carResponseList;
@@ -44,15 +45,16 @@ public class CarsController {
 
     /**
      * We give an id and we will get the car that has that id.
-     @param httpServletRequest
-     @param request
-     @return carsResponse
-      */
+     *
+     * @param httpServletRequest
+     * @param request
+     * @return carsResponse
+     */
     @RequestMapping("/getCarById")
     public CarResponse getCarById(HttpServletRequest httpServletRequest, @RequestBody RequestWithIdOnly request) {
 
         boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, RoleEnum.ADMIN);
-        if(!validated) return null;
+        if (!validated) return null;
 
         CarResponse carResponse = carsService.getCarById(request);
         return carResponse;
@@ -60,20 +62,21 @@ public class CarsController {
 
     /**
      * You give a carsRequest , a car will be created by that dto and it will be added in db
+     *
      * @param httpServletRequest
      * @param carRequest
      * @return
      */
-    @RequestMapping(value = "/addCar",method = RequestMethod.POST)
+    @RequestMapping(value = "/addCar", method = RequestMethod.POST)
     public StateResponse addCar(HttpServletRequest httpServletRequest, @RequestBody CarRequest carRequest) {
 
         boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, null);
-        if(!validated) return null;
+        if (!validated) return null;
 
         StateResponse stateResponse = new StateResponse();
 
         try {
-            if(carsService.addCar(carRequest).isSuccess())
+            if (carsService.addCar(carRequest).isSuccess())
                 stateResponse.setSuccess(true);
             else stateResponse.setSuccess(false);
         } catch (Exception e) {
@@ -84,21 +87,20 @@ public class CarsController {
     }
 
     /**
-     *
      * @param httpServletRequest
      * @param carRequest
      * @return stateResponse
      */
-    @RequestMapping(value = "/updateCar",method = RequestMethod.POST)
+    @RequestMapping(value = "/updateCar", method = RequestMethod.POST)
     public StateResponse updateCar(HttpServletRequest httpServletRequest, @RequestBody CarRequest carRequest) {
 
-        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest,RoleEnum.ADMIN);
-        if(!validated) return null;
+        boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, RoleEnum.ADMIN);
+        if (!validated) return null;
 
         StateResponse stateResponse = new StateResponse();
 
         try {
-            if(carsService.updateCar(carRequest).isSuccess())
+            if (carsService.updateCar(carRequest).isSuccess())
                 stateResponse.setSuccess(true);
             else stateResponse.setSuccess(false);
         } catch (Exception e) {
@@ -110,21 +112,23 @@ public class CarsController {
 
     /**
      * You give an object with an id and will delete the car with that id from db.
+     *
      * @param httpServletRequest
      * @param id
      * @return stateResponse
      */
-    @RequestMapping(value = "/deleteCar",method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteCar", method = RequestMethod.POST)
     public StateResponse deleteCar(HttpServletRequest httpServletRequest, @RequestBody RequestWithIdOnly id) {
 
         boolean validated = authenticationService.validateTokenAndRole(httpServletRequest, RoleEnum.ADMIN);
-        if(!validated) return null;
+        if (!validated) return null;
 
         StateResponse stateResponse = new StateResponse();
 
         try {
-            carsService.deleteCar(id);
-            stateResponse.setSuccess(true);
+            if (carsService.deleteCar(id).isSuccess())
+                stateResponse.setSuccess(true);
+            else stateResponse.setSuccess(false);
         } catch (Exception e) {
             e.printStackTrace();
             stateResponse.setSuccess(false);
