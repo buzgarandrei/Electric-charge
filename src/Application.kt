@@ -109,16 +109,20 @@ fun Application.module(testing: Boolean = false) {
                     }
                 }
 
-                get {
+                get("/email") {
                     val email = call.request.queryParameters["email"]
                     if (email.isNullOrBlank()) {
-                        call.respond(mapOf("success" to false, "error" to "Invalid Email"))
+                        call.respond(mapOf("success" to false, "error" to "Invalid Parameter Name"))
                     } else {
-                        call.respond(mapOf("success" to true, "data" to dao.getAppointmentsByEmail(email)))
+                        try {
+                            call.respond(mapOf("success" to true, "data" to dao.getAppointmentsByEmail(email)))
+                        } catch (e: InvalidUserException) {
+                            call.respond(mapOf("success" to true, "data" to emptyList<Appointment>()))
+                        }
                     }
                 }
 
-                get {
+                get("/powerUnit") {
                     val powerUnitId = call.request.queryParameters["powerUnitId"]?.toIntOrNull()
                     if (powerUnitId == null) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
@@ -212,7 +216,7 @@ fun Application.module(testing: Boolean = false) {
                     call.respond(mapOf("success" to true, "data" to dao.getAllPowerUnits()))
                 }
 
-                get {
+                get("/id") {
                     val powerUnitId = call.request.queryParameters["powerUnitId"]?.toIntOrNull()
                     if (powerUnitId == null) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Power Unit ID"))
@@ -221,7 +225,7 @@ fun Application.module(testing: Boolean = false) {
                     }
                 }
 
-                get {
+                get("/station") {
                     val stationId = call.request.queryParameters["stationId"]?.toIntOrNull()
                     if (stationId == null) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Station ID"))
@@ -335,6 +339,16 @@ fun Application.module(testing: Boolean = false) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Email"))
                     } else {
                         call.respond(mapOf("success" to true, "data" to dao.getUserByEmail(email)))
+                    }
+                }
+
+                put {
+                    try {
+                        val user = call.receive<User>()
+                        dao.updateUser(user)
+                        call.respond(mapOf("success" to true))
+                    } catch(e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid User: ${e.message}"))
                     }
                 }
 
