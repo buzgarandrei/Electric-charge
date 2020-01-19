@@ -3,10 +3,7 @@ package com.diver6ty.chargetapbackend.dao
 import com.diver6ty.chargetapbackend.exceptions.*
 import com.diver6ty.chargetapbackend.model.*
 import com.diver6ty.chargetapbackend.model.requests.FinishAppointmentRequest
-import com.diver6ty.chargetapbackend.model.responses.CarOfUserResponse
-import com.diver6ty.chargetapbackend.model.responses.FinishAppointmentResponse
-import com.diver6ty.chargetapbackend.model.responses.PowerUnitOfStationResponse
-import com.diver6ty.chargetapbackend.model.responses.UserAppointmentResponse
+import com.diver6ty.chargetapbackend.model.responses.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
@@ -366,9 +363,12 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         Unit
     }
 
-    override fun getAllStations(): List<Station> = transaction(db) {
+    override fun getAllStations(): List<StationAvailableResponse> = transaction(db) {
         StationEntity.selectAll().map {
-            Station(
+            val powerUnits = getPowerUnitsOfStation(it[StationEntity.id])
+            val available = powerUnits.any { powerUnit -> powerUnit.busyNrOutlets < powerUnit.totalNrOutlets }
+
+            StationAvailableResponse(
                 it[StationEntity.id],
                 it[StationEntity.name],
                 it[StationEntity.address],
@@ -376,16 +376,20 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[StationEntity.latitude],
                 it[StationEntity.longitude],
                 it[StationEntity.rating],
-                it[StationEntity.nrReviews]
+                it[StationEntity.nrReviews],
+                available
             )
         }
     }
 
-    override fun getStationsByKeyword(keyword: String): List<Station> = transaction(db) {
+    override fun getStationsByKeyword(keyword: String): List<StationAvailableResponse> = transaction(db) {
         StationEntity.select {
             StationEntity.address.lowerCase() like "%${keyword.toLowerCase()}%"
         }.map {
-            Station(
+            val powerUnits = getPowerUnitsOfStation(it[StationEntity.id])
+            val available = powerUnits.any { powerUnit -> powerUnit.busyNrOutlets < powerUnit.totalNrOutlets }
+
+            StationAvailableResponse(
                 it[StationEntity.id],
                 it[StationEntity.name],
                 it[StationEntity.address],
@@ -393,7 +397,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[StationEntity.latitude],
                 it[StationEntity.longitude],
                 it[StationEntity.rating],
-                it[StationEntity.nrReviews]
+                it[StationEntity.nrReviews],
+                available
             )
         }
     }
