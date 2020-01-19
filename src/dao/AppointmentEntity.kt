@@ -7,6 +7,6 @@ object AppointmentEntity : Table() {
     val id = integer("id").primaryKey().autoIncrement()
     val userId = integer("userId") references UserEntity.id
     val powerUnitId = integer("powerUnitId") references PowerUnitEntity.id
-    val startTime = datetime("startTime")
-    val endTime = datetime("endTime")
+    val startTime = text("startTime")
+    val endTime = text("endTime")
 }

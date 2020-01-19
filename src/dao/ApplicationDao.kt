@@ -1,7 +1,9 @@
 package com.diver6ty.chargetapbackend.dao
 
 import com.diver6ty.chargetapbackend.model.*
+import com.diver6ty.chargetapbackend.model.requests.FinishAppointmentRequest
 import com.diver6ty.chargetapbackend.model.responses.CarOfUserResponse
+import com.diver6ty.chargetapbackend.model.responses.FinishAppointmentResponse
 import com.diver6ty.chargetapbackend.model.responses.PowerUnitOfStationResponse
 import com.diver6ty.chargetapbackend.model.responses.UserAppointmentResponse
 import kotlinx.io.core.Closeable
@@ -17,9 +19,11 @@ interface ApplicationDao : Closeable {
 
     fun addAppointment(appointment: Appointment)
     fun getAllAppointments(): List<Appointment>
+    fun getAppointmentById(id: Int): Appointment?
     fun getAppointmentsOfPowerUnit(powerUnitId: Int): List<Appointment>
     fun getAppointmentsByEmail(email: String): List<UserAppointmentResponse>
     fun updateAppointment(appointment: Appointment)
+    fun finishAppointment(finishAppointmentRequest: FinishAppointmentRequest): FinishAppointmentResponse
     fun deleteAppointmentById(id: Int)
 
     fun addPowerUnit(powerUnit: PowerUnit)

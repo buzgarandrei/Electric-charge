@@ -7,5 +7,5 @@ data class Appointment(
     val userId: Int,
     val powerUnitId: Int,
     val startTime: String,
-    val endTime: String
+    var endTime: String
 )

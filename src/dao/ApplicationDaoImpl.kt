@@ -1,16 +1,16 @@
 package com.diver6ty.chargetapbackend.dao
 
-import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
-import com.diver6ty.chargetapbackend.exceptions.InvalidUserException
-import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
-import com.diver6ty.chargetapbackend.exceptions.UserWithEmailAlreadyExistsException
+import com.diver6ty.chargetapbackend.exceptions.*
 import com.diver6ty.chargetapbackend.model.*
+import com.diver6ty.chargetapbackend.model.requests.FinishAppointmentRequest
 import com.diver6ty.chargetapbackend.model.responses.CarOfUserResponse
+import com.diver6ty.chargetapbackend.model.responses.FinishAppointmentResponse
 import com.diver6ty.chargetapbackend.model.responses.PowerUnitOfStationResponse
 import com.diver6ty.chargetapbackend.model.responses.UserAppointmentResponse
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
+import java.util.concurrent.TimeUnit
 
 @Suppress("DuplicatedCode")
 class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
@@ -101,8 +101,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         AppointmentEntity.insert {
             it[userId] = appointment.userId
             it[powerUnitId] = appointment.powerUnitId
-            it[startTime] = DateTime(appointment.startTime)
-            it[endTime] = DateTime(appointment.endTime)
+            it[startTime] = appointment.startTime
+            it[endTime] = appointment.endTime
         }
         Unit
     }
@@ -113,10 +113,24 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[AppointmentEntity.id],
                 it[AppointmentEntity.userId],
                 it[AppointmentEntity.powerUnitId],
-                it[AppointmentEntity.startTime].toString(),
-                it[AppointmentEntity.endTime].toString()
+                it[AppointmentEntity.startTime],
+                it[AppointmentEntity.endTime]
             )
         }
+    }
+
+    override fun getAppointmentById(id: Int): Appointment? = transaction(db) {
+        AppointmentEntity.select {
+            AppointmentEntity.id eq id
+        }.map {
+            Appointment(
+                it[AppointmentEntity.id],
+                it[AppointmentEntity.userId],
+                it[AppointmentEntity.powerUnitId],
+                it[AppointmentEntity.startTime],
+                it[AppointmentEntity.endTime]
+            )
+        }.singleOrNull()
     }
 
     override fun getAppointmentsOfPowerUnit(powerUnitId: Int): List<Appointment> = transaction(db) {
@@ -127,8 +141,8 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
                 it[AppointmentEntity.id],
                 it[AppointmentEntity.userId],
                 it[AppointmentEntity.powerUnitId],
-                it[AppointmentEntity.startTime].toString(),
-                it[AppointmentEntity.endTime].toString()
+                it[AppointmentEntity.startTime],
+                it[AppointmentEntity.endTime]
             )
         }
     }
@@ -172,10 +186,36 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
         AppointmentEntity.update({ AppointmentEntity.id eq appointment.id }) {
             it[userId] = appointment.userId
             it[powerUnitId] = appointment.powerUnitId
-            it[startTime] = DateTime(appointment.startTime)
-            it[endTime] = DateTime(appointment.endTime)
+            it[startTime] = appointment.startTime
+            it[endTime] = appointment.endTime
         }
         Unit
+    }
+
+    override fun finishAppointment(finishAppointmentRequest: FinishAppointmentRequest): FinishAppointmentResponse {
+        if (finishAppointmentRequest.endTime.isBlank()) {
+            throw EndTimeInvalidException()
+        }
+
+        val currentAppointment = getAppointmentById(finishAppointmentRequest.id) ?: throw AppointmentNotFoundException()
+        val powerUnit = getPowerUnitById(currentAppointment.powerUnitId) ?: throw InvalidPowerUnitIDException()
+
+        if (powerUnit.busyNrOutlets <= 0) {
+            throw PowerUnitEmptyException()
+        } else {
+            updateAppointment(currentAppointment.copy().apply { endTime = finishAppointmentRequest.endTime })
+            updatePowerUnit(powerUnit.copy().apply { busyNrOutlets -= 1 })
+
+            val startTime = DateTime(currentAppointment.startTime)
+            val endTime = DateTime(currentAppointment.endTime)
+            val differenceMillis = endTime.millis - startTime.millis
+            val differenceMinutes = TimeUnit.MILLISECONDS.toMinutes(differenceMillis)
+
+            val differenceHours: Double = differenceMinutes.toDouble() / 60
+            val pricePerKwh = powerUnit.priceKwh * differenceHours
+
+            return FinishAppointmentResponse(pricePerKwh, differenceHours)
+        }
     }
 
     override fun deleteAppointmentById(id: Int) = transaction(db) {

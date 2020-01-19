@@ -1,13 +1,11 @@
 package com.diver6ty.chargetapbackend
 
 import com.diver6ty.chargetapbackend.dao.*
-import com.diver6ty.chargetapbackend.exceptions.InvalidPowerUnitIDException
-import com.diver6ty.chargetapbackend.exceptions.InvalidUserException
-import com.diver6ty.chargetapbackend.exceptions.PowerUnitFullException
-import com.diver6ty.chargetapbackend.exceptions.UserWithEmailAlreadyExistsException
+import com.diver6ty.chargetapbackend.exceptions.*
 import com.diver6ty.chargetapbackend.model.*
 import com.diver6ty.chargetapbackend.model.jwt.SimpleJWT
 import com.diver6ty.chargetapbackend.model.repository.Repository
+import com.diver6ty.chargetapbackend.model.requests.FinishAppointmentRequest
 import com.diver6ty.chargetapbackend.model.requests.LoginRequest
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -109,6 +107,16 @@ fun Application.module(testing: Boolean = false) {
                     }
                 }
 
+                get("/id") {
+                    val appointmentId = call.request.queryParameters["appointmentId"]?.toIntOrNull()
+
+                    if (appointmentId == null) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Appointment ID"))
+                    } else {
+                        call.respond(mapOf("success" to true, "data" to dao.getAppointmentById(appointmentId)))
+                    }
+                }
+
                 get("/email") {
                     val email = call.request.queryParameters["email"]
                     if (email.isNullOrBlank()) {
@@ -138,6 +146,24 @@ fun Application.module(testing: Boolean = false) {
                         call.respond(mapOf("success" to true))
                     } catch (e: Exception) {
                         call.respond(mapOf("success" to false, "error" to "Invalid Appointment: ${e.message}"))
+                    }
+                }
+
+                put("/finish") {
+                    try {
+                        val finishAppointmentRequest = call.receive<FinishAppointmentRequest>()
+                        val finishAppointmentResponse = dao.finishAppointment(finishAppointmentRequest)
+                        call.respond(mapOf("success" to true, "data" to finishAppointmentResponse))
+                    } catch(e: EndTimeInvalidException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    } catch (e: AppointmentNotFoundException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    } catch (e: InvalidPowerUnitIDException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    } catch(e: PowerUnitEmptyException) {
+                        call.respond(mapOf("success" to false, "error" to e.message))
+                    } catch (e: Exception) {
+                        call.respond(mapOf("success" to false, "error" to "Invalid Finish Appointment Request: ${e.message}"))
                     }
                 }
 
