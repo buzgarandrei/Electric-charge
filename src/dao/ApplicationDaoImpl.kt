@@ -5,6 +5,7 @@ import com.diver6ty.chargetapbackend.model.*
 import com.diver6ty.chargetapbackend.model.requests.FinishAppointmentRequest
 import com.diver6ty.chargetapbackend.model.responses.*
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 import java.util.concurrent.TimeUnit
@@ -385,7 +386,7 @@ class ApplicationDaoImpl(private val db: Database) : ApplicationDao {
 
     override fun getStationsByKeyword(keyword: String): List<StationAvailableResponse> = transaction(db) {
         StationEntity.select {
-            StationEntity.address.lowerCase() like "%${keyword.toLowerCase()}%"
+            (StationEntity.address.lowerCase() like "%${keyword.toLowerCase()}%") or (StationEntity.name.lowerCase() like "%${keyword.toLowerCase()}%")
         }.map {
             val powerUnits = getPowerUnitsOfStation(it[StationEntity.id])
             val availablePowerUnits = powerUnits.count { powerUnit -> powerUnit.busyNrOutlets < powerUnit.totalNrOutlets }
