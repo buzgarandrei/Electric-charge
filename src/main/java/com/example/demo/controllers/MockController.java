@@ -13,7 +13,7 @@ public class MockController {
     @Autowired
     MockService mockService;
 
-    @RequestMapping(value = "/alearga",method = RequestMethod.POST)
+    @RequestMapping(value = "/populateDB",method = RequestMethod.POST)
     public void populate() {
         mockService.populate();
     }
