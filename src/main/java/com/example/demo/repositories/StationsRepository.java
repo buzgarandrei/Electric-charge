@@ -15,7 +15,7 @@ public interface StationsRepository {
 
     public StateResponse addStation(StationRequest stationRequest) throws Exception;
 
-    public void updateStation(StationRequest stationRequest) throws Exception;
+    public StateResponse updateStation(StationRequest stationRequest) throws Exception;
 
     public StateResponse deleteStation(RequestWithIdOnly stationRequest) throws Exception;
 
